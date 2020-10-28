@@ -15,15 +15,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     private ProductCategoryRepo repo;
 
     @Override
-    public void add(ProductCategory productCategory) {
+    public void save(ProductCategory productCategory) {
 
         repo.save(productCategory);
-    }
-
-    @Override
-    public void update(ProductCategory productCategory) {
-
-        getById(productCategory.getId()).setName(productCategory.getName());
     }
 
     @Override

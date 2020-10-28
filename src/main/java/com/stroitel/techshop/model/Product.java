@@ -51,15 +51,7 @@ public class Product {
         this.price = price;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
 
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
-    }
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private ProductCategory productCategory;
+
 }

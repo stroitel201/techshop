@@ -17,15 +17,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepo repo;
 
     @Override
-    public void add(Product product) {
+    public void save(Product product) {
 
         repo.save(product);
-    }
-
-    @Override
-    public void update(Product product) {
-
-        getById(product.getId()).setName(product.getName());
     }
 
     @Override

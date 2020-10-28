@@ -16,7 +16,7 @@ public class ProductCategory {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategory", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Product> products;
 
     public Long getId() {

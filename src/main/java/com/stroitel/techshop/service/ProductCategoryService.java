@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface ProductCategoryService {
 
-    void add(ProductCategory productCategory);
-
-    void update(ProductCategory productCategory);
+    void save(ProductCategory productCategory);
 
     void delete(Long id);
 
