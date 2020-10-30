@@ -1,17 +1,34 @@
 package com.stroitel.techshop.service;
 
-import com.stroitel.techshop.model.Product;
-import com.stroitel.techshop.model.ProductCategory;
+
+import com.stroitel.techshop.domain.Category;
+import com.stroitel.techshop.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public interface ProductService {
 
-    void save(Product product);
+    List<Product> findAll();
 
-    void delete(Long id);
+    Page<Product> findAll(PageRequest request);
 
-    Product getById(Long id);
+    Page<Product> findByCategory(Category category, PageRequest request);
 
-    List<Product> getAll();
+    Page<Product> findByAvailability(String available, PageRequest request);
+
+    Product getProduct(long productId);
+
+    Optional<Product> findById(long productId);
+
+    void create(Product product, String categoryTitle);
+
+    void update(long productId, Product product, String categoryTitle);
+
+    void updateAvailability(Map<Boolean, List<Long>> productIdsByAvailability);
+
+    void delete(long product);
 }
