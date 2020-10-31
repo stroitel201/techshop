@@ -12,7 +12,7 @@ public class CartItem implements Serializable {
     private CartItemId pk = new CartItemId();
 
     @MapsId("cartId")
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JoinColumn(name = "cart_id", referencedColumnName = "owner_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cart cart;
 

@@ -20,7 +20,7 @@ public class Role implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<UserAccount> users = new HashSet<>();
 
     public Long getId() {
@@ -47,7 +47,7 @@ public class Role implements Serializable {
         this.users = users;
     }
 
-    enum Roles {
+    public enum Roles {
         ROLE_ADMIN,
         ROLE_STAFF,
         ROLE_USER

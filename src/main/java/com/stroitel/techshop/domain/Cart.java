@@ -9,11 +9,11 @@ import java.util.*;
 public class Cart {
 
     @Id
-    @Column(name = "owner_id")
+    @Column(name= "owner_id")
     private Long id;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "owner_id", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private UserAccount userAccount;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,
