@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserAccountDAO extends CrudRepository<UserAccount, Long>, JpaRepository<UserAccount, Long> {
 
     UserAccount findByEmail(String email);
+
+    UserAccount findByName(String name);
 }

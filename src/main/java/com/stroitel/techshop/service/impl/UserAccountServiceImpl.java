@@ -46,4 +46,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         return userAccount;
     }
+
+    @Override
+    public UserAccount findById(Long id) {
+        return userAccountDAO.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserAccount findByUsername(String name) {
+        return userAccountDAO.findByName(name);
+    }
 }

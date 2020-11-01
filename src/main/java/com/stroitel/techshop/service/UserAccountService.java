@@ -16,4 +16,8 @@ public interface UserAccountService {
      */
     UserAccount create(UserAccount userAccount);
 
+    UserAccount findByUsername(String name);
+
+    UserAccount findById(Long id);
+
 }
