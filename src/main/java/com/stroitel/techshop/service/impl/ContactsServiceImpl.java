@@ -32,6 +32,7 @@ public class ContactsServiceImpl implements ContactsService {
         if (originalContacts != null) {
             originalContacts.setPhone(changedContacts.getPhone());
             originalContacts.setAddress(changedContacts.getAddress());
+            originalContacts.setCityAndRegion(changedContacts.getCityAndRegion());
             contactsDAO.save(originalContacts);
         }
     }

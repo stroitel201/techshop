@@ -14,7 +14,7 @@ public interface UserAccountService {
      * Creates new account.
      * @return newly created account
      */
-    UserAccount create(UserAccount userAccount);
+    UserAccount create(UserAccount userAccount) throws Exception;
 
     UserAccount findByUsername(String name);
 

@@ -28,10 +28,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Transactional
     @Override
-    public UserAccount create(UserAccount userAccount) {
+    public UserAccount create(UserAccount userAccount) throws Exception {
         if (findByEmail(userAccount.getEmail()) != null)
-            return null;
-
+            throw new Exception("User already exists");
+        System.out.println("hello");
         Set<Role> roles = new HashSet<>();
         Role role = new Role();
         role.setTitle(Role.Roles.ROLE_USER.name());

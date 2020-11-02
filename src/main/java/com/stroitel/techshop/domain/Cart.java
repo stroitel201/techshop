@@ -9,11 +9,11 @@ import java.util.*;
 public class Cart {
 
     @Id
-    @Column(name= "owner_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "owner_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserAccount userAccount;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,

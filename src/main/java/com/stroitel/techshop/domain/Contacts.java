@@ -15,11 +15,11 @@ import java.util.Objects;
 public class Contacts implements Serializable {
 
     @Id
-    @Column(name = "owner_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserAccount userAccount;
 
     @Column(name = "phone", nullable = false)
@@ -34,11 +34,11 @@ public class Contacts implements Serializable {
     public Contacts() {
     }
 
-    public Contacts(UserAccount userAccount, String phone, String address/*, String cityAndRegion*/) {
+    public Contacts(UserAccount userAccount, String phone, String address, String cityAndRegion) {
         this.userAccount = userAccount;
         this.phone = phone;
         this.address = address;
-        this.cityAndRegion = "13";
+        this.cityAndRegion = cityAndRegion;
     }
 
     public Long getId() {
