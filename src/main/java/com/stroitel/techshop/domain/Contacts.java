@@ -15,11 +15,12 @@ import java.util.Objects;
 public class Contacts implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @MapsId
+    @JoinColumn(name = "id")
     private UserAccount userAccount;
 
     @Column(name = "phone", nullable = false)
