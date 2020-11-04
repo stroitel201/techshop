@@ -79,9 +79,8 @@ public class UserRestController {
                             .getUsername(token));
 
             Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
-            contactsService.updateUserContacts(contacts, userAccount.getEmail());
 
-            return ResponseEntity.ok(contactsService.getContacts(userAccount.getEmail()));
+            return ResponseEntity.ok(contactsService.updateUserContacts(contacts, userAccount.getEmail()));
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -118,8 +117,8 @@ public class UserRestController {
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
-    @PutMapping("cart")
-    public ResponseEntity setDeliveryToUserCart(@RequestBody Boolean deliveryIncluded, HttpServletRequest servletRequest){
+    @PutMapping("cart/{deliveryIncluded}")
+    public ResponseEntity setDeliveryToUserCart(@PathVariable("deliveryIncluded") String deliveryIncluded, HttpServletRequest servletRequest){
 
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
@@ -129,7 +128,7 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), deliveryIncluded)));
+            return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), new Boolean(deliveryIncluded))));
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }

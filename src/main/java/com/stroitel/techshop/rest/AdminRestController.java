@@ -21,16 +21,17 @@ public class AdminRestController {
         this.userAccountService = userAccountService;
     }
 
-    /*@GetMapping(value = "users/{id}")
+    @GetMapping(value = "users/{id}")
     public ResponseEntity<AdminUserDto> getUserById(@PathVariable(name = "id") Long id) {
+
         UserAccount user = userAccountService.findById(id);
 
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        //AdminUserDto result = AdminUserDto.fromUser(user);
+        AdminUserDto result = new AdminUserDto(user);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }*/
+    }
 }

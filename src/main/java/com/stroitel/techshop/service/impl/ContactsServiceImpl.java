@@ -27,13 +27,14 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Transactional
     @Override
-    public void updateUserContacts(Contacts changedContacts, String userLogin) {
+    public Contacts updateUserContacts(Contacts changedContacts, String userLogin) {
         Contacts originalContacts = getContacts(userLogin);
         if (originalContacts != null) {
             originalContacts.setPhone(changedContacts.getPhone());
             originalContacts.setAddress(changedContacts.getAddress());
             originalContacts.setCityAndRegion(changedContacts.getCityAndRegion());
-            contactsDAO.save(originalContacts);
+            return contactsDAO.save(originalContacts);
         }
+        else return null;
     }
 }

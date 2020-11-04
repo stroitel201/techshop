@@ -6,6 +6,6 @@ public interface ContactsService {
 
     Contacts getContacts(String userLogin);
 
-    void updateUserContacts(Contacts changedContacts, String userLogin);
+    Contacts updateUserContacts(Contacts changedContacts, String userLogin);
 
 }
