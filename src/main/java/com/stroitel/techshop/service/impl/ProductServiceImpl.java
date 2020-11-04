@@ -61,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
         return pagedList;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Product getProduct(long productId) {
         return productDAO.findById(productId).get();
@@ -86,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
         saveInternal(product, distilleryTitle, original.isAvailable()); // keep original availability
     }
 
+
     private void saveInternal(Product changed, String categoryTitle, boolean available) {
         Category category = categoryService.findByTitle(categoryTitle);
         if (category != null) {
@@ -95,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Transactional
     @Override
     public void updateAvailability(Map<Boolean, List<Long>> productIdsByAvailability) {
         for (Map.Entry<Boolean, List<Long>> e : productIdsByAvailability.entrySet()) {

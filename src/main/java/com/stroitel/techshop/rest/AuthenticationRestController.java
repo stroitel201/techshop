@@ -2,12 +2,15 @@ package com.stroitel.techshop.rest;
 
 import com.stroitel.techshop.domain.Contacts;
 import com.stroitel.techshop.domain.Role;
+import com.stroitel.techshop.domain.Token;
 import com.stroitel.techshop.domain.UserAccount;
 import com.stroitel.techshop.dto.AuthenticationRequestDto;
 import com.stroitel.techshop.dto.RegisterUserDto;
 import com.stroitel.techshop.dto.UserAccountDto;
 import com.stroitel.techshop.security.jwt.JwtTokenProvider;
+import com.stroitel.techshop.service.TokenService;
 import com.stroitel.techshop.service.UserAccountService;
+import com.stroitel.techshop.service.impl.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,11 +41,14 @@ public class AuthenticationRestController {
 
     private final UserAccountService userAccountService;
 
+    private final TokenService tokenService;
+
     @Autowired
-    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserAccountService userAccountService) {
+    public AuthenticationRestController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserAccountService userAccountService, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userAccountService = userAccountService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("login")
@@ -57,6 +63,7 @@ public class AuthenticationRestController {
             }
 
             String token = jwtTokenProvider.createToken(username);
+            tokenService.save(new Token(token));
 
             Map<Object, Object> response = new HashMap<>();
             response.put("username", username);

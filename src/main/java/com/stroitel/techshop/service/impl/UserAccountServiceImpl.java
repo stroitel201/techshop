@@ -73,11 +73,13 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccount;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserAccount findById(Long id) {
         return userAccountDAO.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserAccount findByUsername(String name) {
         return userAccountDAO.findByName(name);

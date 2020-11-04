@@ -17,5 +17,11 @@ public class Token {
 
     private String token;
 
-    private boolean isValid;
+    private boolean isValid = true;
+
+    public Token(){}
+
+    public Token(String token) {
+        this.token = token;
+    }
 }

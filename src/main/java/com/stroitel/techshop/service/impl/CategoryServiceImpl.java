@@ -46,6 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDAO.save(newCategory);
     }
 
+    @Transactional
     @Override
     public void update(long categoryId, Category changedCategory) {
         Optional<Category> originalCategory = categoryDAO.findById(categoryId);
