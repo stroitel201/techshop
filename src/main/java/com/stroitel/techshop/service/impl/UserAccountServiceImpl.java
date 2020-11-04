@@ -28,6 +28,32 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Transactional
     @Override
+    public UserAccount activate(UserAccount userAccount) {
+
+        UserAccount userAccountFromBd = userAccountDAO.findByName(userAccount.getName());
+
+        userAccountFromBd.setActive(true);
+
+        userAccountDAO.save(userAccountFromBd);
+
+        return userAccountFromBd;
+    }
+
+    @Transactional
+    @Override
+    public UserAccount deactivate(UserAccount userAccount) {
+
+        UserAccount userAccountFromBd = userAccountDAO.findByName(userAccount.getName());
+
+        userAccountFromBd.setActive(false);
+
+        userAccountDAO.save(userAccountFromBd);
+
+        return userAccountFromBd;
+    }
+
+    @Transactional
+    @Override
     public UserAccount create(UserAccount userAccount) throws Exception {
         if (findByEmail(userAccount.getEmail()) != null)
             throw new Exception("User already exists");

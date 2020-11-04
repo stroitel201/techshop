@@ -48,8 +48,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void update(long categoryId, Category changedCategory) {
-        Optional<Category> originalDistillery = categoryDAO.findById(categoryId);
-        if (originalDistillery.isPresent())
+        Optional<Category> originalCategory = categoryDAO.findById(categoryId);
+        if (originalCategory.isPresent())
             categoryDAO.save(changedCategory);
     }
 

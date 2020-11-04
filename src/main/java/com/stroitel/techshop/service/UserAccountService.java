@@ -20,4 +20,8 @@ public interface UserAccountService {
 
     UserAccount findById(Long id);
 
+    UserAccount deactivate(UserAccount userAccount);
+
+    UserAccount activate(UserAccount userAccount);
+
 }
