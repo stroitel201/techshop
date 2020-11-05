@@ -59,7 +59,7 @@ public class AuthenticationRestController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
             UserAccount user = userAccountService.findByUsername(username);
 
-            if (user == null) {
+            if (user == null || !user.isActive()) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }
 

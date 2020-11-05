@@ -14,11 +14,11 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    Page<Product> findAll(PageRequest request);
+    List<Product> findAll(PageRequest request);
 
-    Page<Product> findByCategory(Category category, PageRequest request);
+    List<Product> findByCategory(Category category, PageRequest request);
 
-    Page<Product> findByAvailability(String available, PageRequest request);
+    List<Product> findByAvailability(String available, PageRequest request);
 
     Product getProduct(long productId);
 

@@ -15,6 +15,8 @@ public class ContactsDto {
     @NotNull
     private String cityAndRegion;
 
+    public ContactsDto(){}
+
     public ContactsDto(Contacts contacts) {
 
         this.phone = contacts.getPhone();
@@ -32,5 +34,17 @@ public class ContactsDto {
 
     public String getCityAndRegion() {
         return cityAndRegion;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCityAndRegion(String cityAndRegion) {
+        this.cityAndRegion = cityAndRegion;
     }
 }

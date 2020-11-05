@@ -78,7 +78,7 @@ public class UserRestController {
 
             Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
 
-            return ResponseEntity.ok(contactsService.updateUserContacts(contacts, userAccount.getEmail()));
+            return ResponseEntity.ok(new ContactsDto(contactsService.updateUserContacts(contacts, userAccount.getEmail())));
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }

@@ -37,20 +37,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Product> findAll(PageRequest request) {
-        return productDAO.findAll(request);
+    public List<Product> findAll(PageRequest request) {
+        return productDAO.findAll(request).getContent();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Product> findByCategory(Category category, PageRequest request) {
-        return productDAO.findByCategoryOrderByName(category, request);
+    public List<Product> findByCategory(Category category, PageRequest request) {
+        return productDAO.findByCategoryOrderByName(category, request).getContent();
     }
 
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Product> findByAvailability(String available, PageRequest request) {
+    public List<Product> findByAvailability(String available, PageRequest request) {
         Page<Product> pagedList;
         if ("all".equals(available)) {
             pagedList = productDAO.findAll(request);
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             boolean availability = Boolean.parseBoolean(available);
             pagedList = productDAO.findByAvailableOrderByName(availability, request);
         }
-        return pagedList;
+        return pagedList.getContent();
     }
 
     @Transactional(readOnly = true)

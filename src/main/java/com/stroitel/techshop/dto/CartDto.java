@@ -15,7 +15,7 @@ public class CartDto {
 
     public CartDto(Cart cart){
         this.list = cart.getCartItems().stream()
-                .map(cartItem -> new CartItemDto(cartItem))
+                .map(CartItemDto::new)
                 .collect(Collectors.toList());
 
         this.deliveryIncluded = cart.isDeliveryIncluded();

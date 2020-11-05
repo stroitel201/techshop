@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -77,6 +78,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount findById(Long id) {
         return userAccountDAO.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<UserAccount> getAllUsers() {
+        return userAccountDAO.findAll();
     }
 
     @Transactional(readOnly = true)
