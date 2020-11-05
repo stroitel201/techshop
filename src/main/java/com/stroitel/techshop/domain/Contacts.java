@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -24,12 +25,15 @@ public class Contacts implements Serializable {
     private UserAccount userAccount;
 
     @Column(name = "phone", nullable = false)
+    @NotNull
     private String phone;
 
     @Column(name = "address", nullable = false)
+    @NotNull(message = "bad address")
     private String address;
 
     @Column(name = "city_region", nullable = false)
+    @NotNull
     private String cityAndRegion;
 
     public Contacts() {

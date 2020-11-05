@@ -4,10 +4,7 @@ import com.stroitel.techshop.domain.Cart;
 import com.stroitel.techshop.domain.Contacts;
 import com.stroitel.techshop.domain.Token;
 import com.stroitel.techshop.domain.UserAccount;
-import com.stroitel.techshop.dto.AddItemDto;
-import com.stroitel.techshop.dto.CartDto;
-import com.stroitel.techshop.dto.ContactsDto;
-import com.stroitel.techshop.dto.UserAccountDto;
+import com.stroitel.techshop.dto.*;
 import com.stroitel.techshop.security.jwt.JwtTokenProvider;
 import com.stroitel.techshop.service.CartService;
 import com.stroitel.techshop.service.ContactsService;
@@ -18,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user/")
@@ -68,7 +66,7 @@ public class UserRestController {
     }
 
     @PostMapping("contacts")
-    public ResponseEntity updateUserContacts(@RequestBody ContactsDto contactsDto, HttpServletRequest servletRequest){
+    public ResponseEntity updateUserContacts(@Valid @RequestBody ContactsDto contactsDto, HttpServletRequest servletRequest){
 
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
@@ -102,7 +100,7 @@ public class UserRestController {
     }
 
     @PostMapping("cart")
-    public ResponseEntity addItemToUserCart(@RequestBody AddItemDto addItemDto, HttpServletRequest servletRequest){
+    public ResponseEntity addItemToUserCart(@Valid @RequestBody AddItemDto addItemDto, HttpServletRequest servletRequest){
 
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
@@ -117,8 +115,8 @@ public class UserRestController {
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
-    @PutMapping("cart/{deliveryIncluded}")
-    public ResponseEntity setDeliveryToUserCart(@PathVariable("deliveryIncluded") String deliveryIncluded, HttpServletRequest servletRequest){
+    @PutMapping("cart")
+    public ResponseEntity setDeliveryToUserCart(@RequestBody BooleanDto booleanDto, HttpServletRequest servletRequest){
 
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
@@ -128,7 +126,7 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), new Boolean(deliveryIncluded))));
+            return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getDeliveryIncluded())));
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }

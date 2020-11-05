@@ -2,12 +2,17 @@ package com.stroitel.techshop.dto;
 
 import com.stroitel.techshop.domain.Contacts;
 
+import javax.validation.constraints.NotNull;
+
 public class ContactsDto {
 
+    @NotNull
     private String phone;
 
+    @NotNull
     private String address;
 
+    @NotNull
     private String cityAndRegion;
 
     public ContactsDto(Contacts contacts) {

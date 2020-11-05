@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpResponse;
@@ -76,7 +77,7 @@ public class AuthenticationRestController {
     }
 
     @PostMapping("register")
-    public ResponseEntity register(@RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity register(@Valid @RequestBody RegisterUserDto registerUserDto) {
         UserAccount userAccount = new UserAccount();
 
         userAccount.setName(registerUserDto.getUsername());

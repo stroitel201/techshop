@@ -1,6 +1,7 @@
 package com.stroitel.techshop.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,12 +17,15 @@ public class UserAccount implements Serializable {
     private Long id;
 
     @Column(name = "email", nullable = false)
+    @NotNull
     private String email;
 
     @Column(name = "password", nullable = false)
+    @NotNull
     private String password;
 
     @Column(name = "name", nullable = false)
+    @NotNull
     private String name;
 
     @Column(name = "active", nullable = false)

@@ -1,17 +1,25 @@
 package com.stroitel.techshop.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class RegisterUserDto {
 
+    @NotNull
     private String username;
 
+    @NotNull
     private String password;
 
+    @NotNull
     private String email;
 
+    @NotNull
     private String phone;
 
+    @NotNull
     private String address;
 
+    @NotNull
     private String cityAndRegion;
 
     public String getUsername() {
