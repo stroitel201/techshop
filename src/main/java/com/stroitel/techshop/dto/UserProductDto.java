@@ -12,6 +12,8 @@ public class UserProductDto {
 
     private String category;
 
+    private String pictureRef;
+
     private Integer price;
 
     public UserProductDto() {
@@ -23,6 +25,7 @@ public class UserProductDto {
         this.name = product.getName();
         this.category = product.getCategory().getTitle();
         this.description = product.getDescription();
+        this.pictureRef = product.getPictureRef();
         this.price = product.getPrice();
     }
 
@@ -44,5 +47,9 @@ public class UserProductDto {
 
     public Integer getPrice() {
         return price;
+    }
+
+    public String getPictureRef() {
+        return pictureRef;
     }
 }

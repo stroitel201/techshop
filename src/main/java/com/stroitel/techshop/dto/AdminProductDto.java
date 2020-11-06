@@ -12,6 +12,8 @@ public class AdminProductDto {
 
     private String category;
 
+    private String pictureRef;
+
     private Integer price;
 
     private boolean isAvailable;
@@ -19,12 +21,15 @@ public class AdminProductDto {
     public AdminProductDto() {
     }
 
+
+
     public AdminProductDto(Product product) {
 
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory().getTitle();
         this.description = product.getDescription();
+        this.pictureRef = product.getPictureRef();
         this.price = product.getPrice();
         this.isAvailable = product.isAvailable();
     }
@@ -51,5 +56,9 @@ public class AdminProductDto {
 
     public boolean isAvailable() {
         return isAvailable;
+    }
+
+    public String getPictureRef() {
+        return pictureRef;
     }
 }

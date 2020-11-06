@@ -143,6 +143,7 @@ public class AdminRestController {
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
+        product.setPictureRef(exProductDto.getPictureRef());
 
         return ResponseEntity.ok(new AdminProductDto(productService.create(product, exProductDto.getCategory())));
     }
@@ -173,6 +174,7 @@ public class AdminRestController {
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
+        product.setPictureRef(exProductDto.getPictureRef());
 
         return ResponseEntity.ok(new AdminProductDto(productService.update(id, product, exProductDto.getCategory())));
     }

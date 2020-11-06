@@ -33,6 +33,8 @@ public class Product {
     @Min(0)
     private Integer price;
 
+    private String pictureRef;
+
     @Column(name = "available", nullable = false)
     private boolean available = true;
 

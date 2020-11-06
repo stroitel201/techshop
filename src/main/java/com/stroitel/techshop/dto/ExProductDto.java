@@ -17,6 +17,8 @@ public class ExProductDto {
     @NotNull
     private String category;
 
+    private String pictureRef;
+
     @NotNull
     @Min(0)
     private Integer price;
