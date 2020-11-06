@@ -90,6 +90,15 @@ public class Cart {
         itemsCost = 0;
     }
 
+    public void checkAvailability(){
+        Iterator<CartItem> iterator = cartItems.iterator();
+        while (iterator.hasNext()) {
+            CartItem item = iterator.next();
+            if (item.getProduct().isAvailable() != true)
+                iterator.remove();
+        }
+    }
+
     public long getId() {
         return id;
     }

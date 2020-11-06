@@ -34,6 +34,10 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
+    public boolean isItemAvailable(){
+        return product.isAvailable();
+    }
+
     public double calculateCost() {
         return quantity * product.getPrice();
     }

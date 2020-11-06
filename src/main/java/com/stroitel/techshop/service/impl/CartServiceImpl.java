@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -35,8 +36,9 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> cartOptional = cartDAO.findById(account.getId());
         if(cartOptional.isPresent()) {
             Cart cart = cartOptional.get();
+            cart.checkAvailability();
             cart.calculateItemsCost();
-            return cart;
+            return cartDAO.save(cart);
         }
         else return createCart(account);
     }
