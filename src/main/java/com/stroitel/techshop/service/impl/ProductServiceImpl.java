@@ -75,26 +75,27 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void create(Product product, String categoryTitle) {
-        saveInternal(product, categoryTitle, true);
+    public Product create(Product product, String categoryTitle) {
+        return saveInternal(product, categoryTitle, true);
     }
 
     @Transactional
     @Override
-    public void update(long productId, Product product, String distilleryTitle){
+    public Product update(long productId, Product product, String categoryTitle){
         Product original = getProduct(productId);
         product.setId(original.getId());
-        saveInternal(product, distilleryTitle, original.isAvailable()); // keep original availability
+        return saveInternal(product, categoryTitle, original.isAvailable()); // keep original availability
     }
 
 
-    private void saveInternal(Product changed, String categoryTitle, boolean available) {
+    private Product saveInternal(Product changed, String categoryTitle, boolean available) {
         Category category = categoryService.findByTitle(categoryTitle);
         if (category != null) {
             changed.setCategory(category);
             changed.setAvailable(available);
-            productDAO.save(changed);
+            return productDAO.save(changed);
         }
+        else return null;
     }
 
     @Transactional
@@ -117,7 +118,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void delete(long product) {
-        productDAO.deleteById(product);
+    public Product delete(long id) {
+
+        Product product = productDAO.findById(id).get();
+        product.setAvailable(false);
+        return productDAO.save(product);
     }
 }

@@ -42,16 +42,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public void create(Category newCategory) {
-        categoryDAO.save(newCategory);
+    public Category create(Category newCategory) {
+        return categoryDAO.save(newCategory);
     }
 
     @Transactional
     @Override
-    public void update(long categoryId, Category changedCategory) {
+    public Category update(long categoryId, Category changedCategory) {
         Optional<Category> originalCategory = categoryDAO.findById(categoryId);
-        if (originalCategory.isPresent())
-            categoryDAO.save(changedCategory);
+        if (originalCategory.isPresent()){
+            changedCategory.setId(originalCategory.get().getId());
+            return categoryDAO.save(changedCategory);
+        }
+        else return null;
     }
 
     @Transactional

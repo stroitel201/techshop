@@ -33,7 +33,7 @@ public class Cart {
 
     public Cart(UserAccount userAccount) {
         this.userAccount = userAccount;
-        itemsCost = calculateItemsCost();
+        calculateItemsCost();
     }
 
     public boolean isEmpty() {
@@ -58,7 +58,7 @@ public class Cart {
         } else {
             removeItem(product.getId());
         }
-        itemsCost = calculateItemsCost();
+        calculateItemsCost();
         return updatedItem;
     }
 
@@ -79,8 +79,8 @@ public class Cart {
         return null;
     }
 
-    private double calculateItemsCost() {
-        return cartItems.stream()
+    public void calculateItemsCost() {
+        itemsCost = cartItems.stream()
                 .mapToDouble(CartItem::calculateCost)
                 .sum();
     }
@@ -112,7 +112,7 @@ public class Cart {
 
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
-        itemsCost = calculateItemsCost();
+        calculateItemsCost();
     }
 
     public boolean isDeliveryIncluded() {

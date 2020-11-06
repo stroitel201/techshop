@@ -1,8 +1,11 @@
 package com.stroitel.techshop.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 
-public class AddItemDto {
+@Data
+public class ExAddItemDto {
 
     @NotNull
     private Long id;

@@ -10,6 +10,9 @@ public class UserAccountDto {
 
     private String email;
 
+    public UserAccountDto() {
+    }
+
     public UserAccountDto(UserAccount userAccount) {
 
         this.id = userAccount.getId();

@@ -12,9 +12,9 @@ public interface CategoryService {
 
     Category findByTitle(String title);
 
-    void create(Category newCategory);
+    Category create(Category newCategory);
 
-    void update(long categoryId, Category changedCategory);
+    Category update(long categoryId, Category changedCategory);
 
     void delete(long categoryId);
 }

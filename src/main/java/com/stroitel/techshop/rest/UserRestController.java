@@ -1,6 +1,5 @@
 package com.stroitel.techshop.rest;
 
-import com.stroitel.techshop.domain.Cart;
 import com.stroitel.techshop.domain.Contacts;
 import com.stroitel.techshop.domain.Token;
 import com.stroitel.techshop.domain.UserAccount;
@@ -21,11 +20,11 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/user/")
 public class UserRestController {
 
-    private UserAccountService userAccountService;
-    private JwtTokenProvider jwtTokenProvider;
-    private TokenService tokenService;
-    private CartService cartService;
-    private ContactsService contactsService;
+    private final UserAccountService userAccountService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenService tokenService;
+    private final CartService cartService;
+    private final ContactsService contactsService;
 
     public UserRestController(UserAccountService userAccountService, JwtTokenProvider jwtTokenProvider, TokenService tokenService, CartService cartService, ContactsService contactsService) {
         this.userAccountService = userAccountService;
@@ -45,7 +44,9 @@ public class UserRestController {
             UserAccount userAccount = userAccountService
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
-            return ResponseEntity.ok(new UserAccountDto(userAccount));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new UserAccountDto(userAccount));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -60,7 +61,9 @@ public class UserRestController {
             UserAccount userAccount = userAccountService
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
-            return ResponseEntity.ok(new ContactsDto(contactsService.getContacts(userAccount.getEmail())));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new ContactsDto(contactsService.getContacts(userAccount.getEmail())));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -76,9 +79,11 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
-
-            return ResponseEntity.ok(new ContactsDto(contactsService.updateUserContacts(contacts, userAccount.getEmail())));
+            if(userAccount.isActive()) {
+                Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
+                return ResponseEntity.ok(new ContactsDto(contactsService.updateUserContacts(contacts, userAccount.getEmail())));
+            }
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -94,13 +99,15 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            return ResponseEntity.ok(new CartDto(cartService.getCartOrCreate(userAccount.getEmail())));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new CartDto(cartService.getCartOrCreate(userAccount.getEmail())));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("cart")
-    public ResponseEntity addItemToUserCart(@Valid @RequestBody AddItemDto addItemDto, HttpServletRequest servletRequest){
+    public ResponseEntity addItemToUserCart(@Valid @RequestBody ExAddItemDto exAddItemDto, HttpServletRequest servletRequest){
 
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
@@ -110,7 +117,9 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            return ResponseEntity.ok(new CartDto(cartService.addToCart(userAccount.getEmail(), addItemDto.getId(), addItemDto.getQuantity())));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new CartDto(cartService.addToCart(userAccount.getEmail(), exAddItemDto.getId(), exAddItemDto.getQuantity())));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -125,8 +134,9 @@ public class UserRestController {
             UserAccount userAccount = userAccountService
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
-
-            return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getDeliveryIncluded())));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getDeliveryIncluded())));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -142,7 +152,9 @@ public class UserRestController {
                     .findByUsername(jwtTokenProvider
                             .getUsername(token));
 
-            return ResponseEntity.ok(new CartDto(cartService.clearCart(userAccount.getEmail())));
+            if(userAccount.isActive())
+                return ResponseEntity.ok(new CartDto(cartService.clearCart(userAccount.getEmail())));
+            else return null;
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }

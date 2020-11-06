@@ -16,6 +16,9 @@ public class AdminProductDto {
 
     private boolean isAvailable;
 
+    public AdminProductDto() {
+    }
+
     public AdminProductDto(Product product) {
 
         this.id = product.getId();
@@ -24,6 +27,10 @@ public class AdminProductDto {
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.isAvailable = product.isAvailable();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

@@ -14,6 +14,9 @@ public class UserProductDto {
 
     private Integer price;
 
+    public UserProductDto() {
+    }
+
     public UserProductDto(Product product) {
 
         this.id = product.getId();
@@ -26,6 +29,7 @@ public class UserProductDto {
     public Long getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }

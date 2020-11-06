@@ -24,11 +24,11 @@ public interface ProductService {
 
     Optional<Product> findById(long productId);
 
-    void create(Product product, String categoryTitle);
+    Product create(Product product, String categoryTitle);
 
-    void update(long productId, Product product, String categoryTitle);
+    Product update(long productId, Product product, String categoryTitle);
 
     void updateAvailability(Map<Boolean, List<Long>> productIdsByAvailability);
 
-    void delete(long product);
+    Product delete(long id);
 }

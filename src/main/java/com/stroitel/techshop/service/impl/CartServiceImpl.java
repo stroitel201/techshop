@@ -33,7 +33,12 @@ public class CartServiceImpl implements CartService {
     public Cart getCartOrCreate(String userEmail) {
         UserAccount account = userAccountService.findByEmail(userEmail);
         Optional<Cart> cartOptional = cartDAO.findById(account.getId());
-        return cartOptional.orElseGet(() -> createCart(account));
+        if(cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            cart.calculateItemsCost();
+            return cart;
+        }
+        else return createCart(account);
     }
 
     private Cart createCart(UserAccount account) {
