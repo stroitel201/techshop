@@ -3,12 +3,16 @@ package com.stroitel.techshop.rest;
 import com.stroitel.techshop.domain.*;
 import com.stroitel.techshop.dto.*;
 import com.stroitel.techshop.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,9 @@ public class AdminRestController {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final OrderService orderService;
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     public AdminRestController(UserAccountService userAccountService, CartService cartService,
                                ContactsService contactsService, CategoryService categoryService,
@@ -141,13 +148,24 @@ public class AdminRestController {
     }
 
     @PostMapping("products")
-    public ResponseEntity addProduct(@Valid @RequestBody ExProductDto exProductDto){
+    public ResponseEntity addProduct(@Valid @RequestBody ExProductDto exProductDto,
+                                     @RequestParam("file") MultipartFile file) throws IOException {
 
         Product product = new Product();
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
 
+        if(file != null){
+            File uploadDir = new File(uploadPath);
+            if(!uploadDir.exists())
+                uploadDir.mkdir();
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+            product.setPictureRef(resultFileName);
+        }
         return ResponseEntity.ok(new AdminProductDto(productService.create(product, exProductDto.getCategory())));
     }
 
@@ -171,13 +189,24 @@ public class AdminRestController {
     }
 
     @PutMapping("products/{id}")
-    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ExProductDto exProductDto){
+    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ExProductDto exProductDto,
+                                        @RequestParam(value = "file", required = false) MultipartFile file) throws IOException{
 
         Product product = new Product();
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
 
+        if(file != null){
+            File uploadDir = new File(uploadPath);
+            if(!uploadDir.exists())
+                uploadDir.mkdir();
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+            product.setPictureRef(resultFileName);
+        }
         return ResponseEntity.ok(new AdminProductDto(productService.update(id, product, exProductDto.getCategory())));
     }
 
