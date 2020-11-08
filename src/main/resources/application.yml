@@ -14,7 +14,7 @@ jwt:
     expired: 3600000
 
 upload:
-  path: D:\java\techshop\images
+  path: D:/java/techshop/images
 ---
 spring:
   profiles: default
