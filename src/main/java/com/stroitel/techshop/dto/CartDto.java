@@ -13,6 +13,8 @@ public class CartDto {
 
     private boolean deliveryIncluded;
 
+    private int itemsCount;
+
     private double itemsCost;
 
     public CartDto() {
@@ -25,6 +27,7 @@ public class CartDto {
 
         this.deliveryIncluded = cart.isDeliveryIncluded();
         this.itemsCost = cart.getItemsCost();
+        this.itemsCount = cart.getItemsCount();
     }
 
     public List<CartItemDto> getList() {

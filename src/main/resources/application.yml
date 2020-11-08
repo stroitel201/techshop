@@ -17,7 +17,7 @@ jwt:
 spring:
   profiles: default
   datasource:
-    url: jdbc:mysql://localhost:3306/springshop?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/springshop?serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
     driverClassName: com.mysql.jdbc.Driver
     username: root
     password: 1234

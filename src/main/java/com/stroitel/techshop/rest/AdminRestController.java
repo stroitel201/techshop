@@ -21,13 +21,17 @@ public class AdminRestController {
     private final ContactsService contactsService;
     private final CategoryService categoryService;
     private final ProductService productService;
+    private final OrderService orderService;
 
-    public AdminRestController(UserAccountService userAccountService, CartService cartService, ContactsService contactsService, CategoryService categoryService, ProductService productService) {
+    public AdminRestController(UserAccountService userAccountService, CartService cartService,
+                               ContactsService contactsService, CategoryService categoryService,
+                               ProductService productService, OrderService orderService) {
         this.userAccountService = userAccountService;
         this.cartService = cartService;
         this.contactsService = contactsService;
         this.categoryService = categoryService;
         this.productService = productService;
+        this.orderService = orderService;
     }
 
     @GetMapping("users")
@@ -143,7 +147,6 @@ public class AdminRestController {
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
-        product.setPictureRef(exProductDto.getPictureRef());
 
         return ResponseEntity.ok(new AdminProductDto(productService.create(product, exProductDto.getCategory())));
     }
@@ -174,7 +177,6 @@ public class AdminRestController {
         product.setName(exProductDto.getName());
         product.setDescription(exProductDto.getDescription());
         product.setPrice(exProductDto.getPrice());
-        product.setPictureRef(exProductDto.getPictureRef());
 
         return ResponseEntity.ok(new AdminProductDto(productService.update(id, product, exProductDto.getCategory())));
     }
@@ -184,4 +186,26 @@ public class AdminRestController {
 
         return ResponseEntity.ok(new AdminProductDto(productService.delete(id)));
     }
+
+    @GetMapping("orders")
+    public ResponseEntity getOrders(@RequestParam(name = "user", required = false, defaultValue = "0") Long id){
+
+        if(id != 0){
+            return ResponseEntity.ok(orderService.getUserOrders(userAccountService.findById(id))
+                    .stream()
+                    .map(OrderDto::new)
+                    .collect(Collectors.toList()));
+        }
+        else return ResponseEntity.ok(orderService.getAllOrders()
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("orders/{id}")
+    public ResponseEntity getOrder(@PathVariable("id") Long id){
+
+        return ResponseEntity.ok(new OrderDto(orderService.getById(id)));
+    }
+
 }

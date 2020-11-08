@@ -8,7 +8,7 @@ public class CartItemDto {
 
     private UserProductDto product;
 
-    private int quantity;
+    private Integer quantity;
 
     public CartItemDto() {
     }
