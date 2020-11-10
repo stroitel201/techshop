@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class BooleanDto {
 
-    private Boolean deliveryIncluded;
+    private Boolean boolValue;
 }

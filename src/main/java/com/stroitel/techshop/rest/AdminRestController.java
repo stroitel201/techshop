@@ -237,4 +237,9 @@ public class AdminRestController {
         return ResponseEntity.ok(new OrderDto(orderService.getById(id)));
     }
 
+    @PutMapping("orders/{id}")
+    public ResponseEntity setExecutedOrder(@PathVariable("id") Long id, @RequestBody BooleanDto booleanDto){
+
+        return ResponseEntity.ok(new OrderDto(orderService.setExecuted(id, booleanDto.getBoolValue())));
+    }
 }

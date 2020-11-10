@@ -38,53 +38,31 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity getUser(HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-            if(userAccount.isActive())
+        if (userAccount != null && userAccount.isActive())
                 return ResponseEntity.ok(new UserAccountDto(userAccount));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("contacts")
     public ResponseEntity getUserContacts(HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-            if(userAccount.isActive())
+        if (userAccount != null && userAccount.isActive())
                 return ResponseEntity.ok(new ContactsDto(contactsService.getContacts(userAccount.getEmail())));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("contacts")
     public ResponseEntity updateUserContacts(@Valid @RequestBody ContactsDto contactsDto, HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-
-            if(userAccount.isActive()) {
+        if (userAccount != null && userAccount.isActive()) {
                 Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
                 return ResponseEntity.ok(new ContactsDto(contactsService.updateUserContacts(contacts, userAccount.getEmail())));
-            }
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -92,76 +70,46 @@ public class UserRestController {
     @GetMapping("cart")
     public ResponseEntity getUserCart(HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-
-            if(userAccount.isActive())
+        if (userAccount != null && userAccount.isActive())
                 return ResponseEntity.ok(new CartDto(cartService.getCartOrCreate(userAccount.getEmail())));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("cart")
     public ResponseEntity addItemToUserCart(@Valid @RequestBody ExAddItemDto exAddItemDto, HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-
-            if(userAccount.isActive())
+        if (userAccount != null && userAccount.isActive())
                 return ResponseEntity.ok(new CartDto(cartService.addToCart(userAccount.getEmail(), exAddItemDto.getId(), exAddItemDto.getQuantity())));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("cart")
     public ResponseEntity setDeliveryToUserCart(@RequestBody BooleanDto booleanDto, HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-            if(userAccount.isActive())
-                return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getDeliveryIncluded())));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
+        if (userAccount != null && userAccount.isActive())
+                return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getBoolValue())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping("cart")
     public ResponseEntity clearUserCart(HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-
-            if(userAccount.isActive())
+        if (userAccount != null && userAccount.isActive())
                 return ResponseEntity.ok(new CartDto(cartService.clearCart(userAccount.getEmail())));
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("logout")
     public ResponseEntity logout(HttpServletRequest servletRequest){
+
         String token = jwtTokenProvider.resolveToken(servletRequest);
         Token tokenFromBd = tokenService.findByToken(token);
 
@@ -172,19 +120,26 @@ public class UserRestController {
     @PostMapping("order")
     public ResponseEntity createOrder(HttpServletRequest servletRequest){
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
+        UserAccount userAccount = securityCheck(servletRequest);
 
-        if(tokenFromBd.isValid()) {
-            UserAccount userAccount = userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-            if (userAccount.isActive()) {
+        if (userAccount != null && userAccount.isActive()) {
 
-                return ResponseEntity.ok(new OrderDto(orderService.createOrder(userAccount)));
-            }
-            else return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return ResponseEntity.ok(new OrderDto(orderService.createOrder(userAccount)));
         }
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
+
+    private UserAccount securityCheck(HttpServletRequest servletRequest){
+
+        String token = jwtTokenProvider.resolveToken(servletRequest);
+        Token tokenFromBd = tokenService.findByToken(token);
+
+        if(tokenFromBd.isValid())
+            return userAccountService
+                    .findByUsername(jwtTokenProvider
+                            .getUsername(token));
+        else return null;
+    }
 }
+
+
