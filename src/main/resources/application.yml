@@ -15,6 +15,13 @@ jwt:
 
 upload:
   path: D:/java/techshop/images
+
+aws:
+  bucketName: astrofy
+  region: us-east-2
+  accessKeyId: AKIAZ3RB36W6OE7TFKF5
+  secretAccessKey: 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
+
 ---
 spring:
   profiles: default
