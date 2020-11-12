@@ -12,9 +12,6 @@ import software.amazon.awssdk.regions.Region;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     @Value("${aws.accessKeyId}")
     String keyId;
     @Value("${aws.secretAccessKey}")
@@ -23,12 +20,6 @@ public class MvcConfig implements WebMvcConfigurer {
     String bucketName;
     @Value("${aws.region}")
     String region;
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/img/**")
-                .addResourceLocations("file:///" + uploadPath + "/");
-    }
 
     @Bean
     public AWSLoader awsLoader(){

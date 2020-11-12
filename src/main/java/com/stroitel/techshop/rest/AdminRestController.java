@@ -32,8 +32,6 @@ public class AdminRestController {
     private final ProductService productService;
     private final OrderService orderService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
 
     public AdminRestController(AWSLoader awsLoader, UserAccountService userAccountService,
                                CartService cartService, ContactsService contactsService,
@@ -51,10 +49,7 @@ public class AdminRestController {
     @PostMapping
     public ResponseEntity upload(@RequestParam("file") MultipartFile file) throws IOException {
 
-        File targetFile = new File(uploadPath + "/" + file.getOriginalFilename());
-        file.transferTo(targetFile);
-        awsLoader.UploadObject("trololo", targetFile);
-        targetFile.delete();
+        awsLoader.UploadObject(file);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -165,7 +160,7 @@ public class AdminRestController {
     }
 
     @PostMapping("products")
-    public ResponseEntity addProduct(@Valid @RequestBody ExProductDto exProductDto,
+    public ResponseEntity addProduct(@Valid @RequestParam("product") ExProductDto exProductDto,
                                      @RequestParam("file") MultipartFile file) throws IOException {
 
         Product product = new Product();
@@ -174,14 +169,7 @@ public class AdminRestController {
         product.setPrice(exProductDto.getPrice());
 
         if(file != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists())
-                uploadDir.mkdir();
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
-            product.setPictureRef(resultFileName);
+            product.setPictureRef(awsLoader.UploadObject(file));
         }
         return ResponseEntity.ok(new AdminProductDto(productService.create(product, exProductDto.getCategory())));
     }
@@ -206,7 +194,7 @@ public class AdminRestController {
     }
 
     @PutMapping("products/{id}")
-    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ExProductDto exProductDto,
+    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid @RequestParam("product") ExProductDto exProductDto,
                                         @RequestParam(value = "file", required = false) MultipartFile file) throws IOException{
 
         Product product = new Product();
@@ -215,14 +203,7 @@ public class AdminRestController {
         product.setPrice(exProductDto.getPrice());
 
         if(file != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists())
-                uploadDir.mkdir();
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
-            product.setPictureRef(resultFileName);
+            product.setPictureRef(awsLoader.UploadObject(file));
         }
         return ResponseEntity.ok(new AdminProductDto(productService.update(id, product, exProductDto.getCategory())));
     }

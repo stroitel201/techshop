@@ -33,17 +33,14 @@ public class AWSLoader {
                 .build();
     }
 
-    public String UploadObject(MultipartFile targetFile){
+    public String UploadObject(MultipartFile file){
         try {
-            asdf
-            // Upload a file as a new object with ContentType and title specified.
-            Path file = Paths.get(targetFile.toURI());
-            String key = file.getFileName().toString();
-            String type = Files.probeContentType(file);
+            String key = file.getOriginalFilename();
+            String type = file.getContentType();
             s3Client.putObject(PutObjectRequest.builder().bucket(bucketName).
                     key(key).
                     acl(ObjectCannedACL.PUBLIC_READ).contentType(type).build(),
-                    RequestBody.fromFile(file));
+                    RequestBody.fromBytes(file.getBytes()));
             GetUrlRequest request = GetUrlRequest.builder().bucket(bucketName).key(key).build();
             return s3Client.utilities().getUrl(request).toExternalForm();
         }
