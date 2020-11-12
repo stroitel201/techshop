@@ -160,7 +160,7 @@ public class AdminRestController {
     }
 
     @PostMapping("products")
-    public ResponseEntity addProduct(@Valid @RequestParam("product") ExProductDto exProductDto,
+    public ResponseEntity addProduct(@Valid ExProductDto exProductDto,
                                      @RequestParam("file") MultipartFile file) throws IOException {
 
         Product product = new Product();
@@ -194,7 +194,7 @@ public class AdminRestController {
     }
 
     @PutMapping("products/{id}")
-    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid @RequestParam("product") ExProductDto exProductDto,
+    public ResponseEntity updateProduct(@PathVariable("id") Long id, @Valid ExProductDto exProductDto,
                                         @RequestParam(value = "file", required = false) MultipartFile file) throws IOException{
 
         Product product = new Product();
