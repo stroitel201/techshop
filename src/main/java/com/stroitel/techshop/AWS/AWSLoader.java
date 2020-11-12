@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeType;
+import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.SystemPropertyCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -32,7 +33,7 @@ public class AWSLoader {
                 .build();
     }
 
-    public String UploadObject(String fileObjKeyName, File targetFile){
+    public String UploadObject(MultipartFile targetFile){
         try {
             // Upload a file as a new object with ContentType and title specified.
             Path file = Paths.get(targetFile.toURI());
