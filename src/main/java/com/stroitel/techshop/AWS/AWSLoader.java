@@ -35,6 +35,7 @@ public class AWSLoader {
 
     public String UploadObject(MultipartFile targetFile){
         try {
+            asdf
             // Upload a file as a new object with ContentType and title specified.
             Path file = Paths.get(targetFile.toURI());
             String key = file.getFileName().toString();
