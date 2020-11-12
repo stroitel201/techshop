@@ -1,8 +1,11 @@
 package com.stroitel.techshop.rest;
 
+
+import com.stroitel.techshop.AWS.AWSLoader;
 import com.stroitel.techshop.domain.*;
 import com.stroitel.techshop.dto.*;
 import com.stroitel.techshop.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/v1/admin/")
 public class AdminRestController {
 
+
+    private final AWSLoader awsLoader;
     private final UserAccountService userAccountService;
     private final CartService cartService;
     private final ContactsService contactsService;
@@ -30,15 +35,27 @@ public class AdminRestController {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public AdminRestController(UserAccountService userAccountService, CartService cartService,
-                               ContactsService contactsService, CategoryService categoryService,
-                               ProductService productService, OrderService orderService) {
+    public AdminRestController(AWSLoader awsLoader, UserAccountService userAccountService,
+                               CartService cartService, ContactsService contactsService,
+                               CategoryService categoryService, ProductService productService,
+                               OrderService orderService) {
+        this.awsLoader = awsLoader;
         this.userAccountService = userAccountService;
         this.cartService = cartService;
         this.contactsService = contactsService;
         this.categoryService = categoryService;
         this.productService = productService;
         this.orderService = orderService;
+    }
+
+    @PostMapping
+    public ResponseEntity upload(@RequestParam("file") MultipartFile file) throws IOException {
+
+        File targetFile = new File(uploadPath + "/" + file.getOriginalFilename());
+        file.transferTo(targetFile);
+        awsLoader.UploadObject("trololo", targetFile);
+        targetFile.delete();
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("users")
