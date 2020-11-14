@@ -1,3 +1,5 @@
+"use strict";
+
 $(document).ready(function () {
   $(".input").focus(function () {
     let label = $(this).parent().find(".label-txt");
@@ -21,3 +23,5 @@ $(document).ready(function () {
     });
   });
 });
+
+console.log(1);
