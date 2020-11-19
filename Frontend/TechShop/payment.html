@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechShop</title>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/registerStyles.css" />
+    <link rel="stylesheet" href="css/paymentForm.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//fonts.googleapis.com/css?family=Quicksand"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+
+    <script type="text/javascript" src="js/paymentScript.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="formInput">
+        <label>
+          <p class="label-txt">ACCOUNT NUMBER</p>
+          <input type="text" class="input" />
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        <label>
+          <p class="label-txt">ACCOUNT OWNER</p>
+          <input type="text" class="input" />
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        <label id="cvvLabel">
+          <p class="label-txt" id="cvvLabelTxt">CVV</p>
+          <input type="text" class="input" id="cvvInput" />
+          <div class="line-box" id="cvvLineBox">
+            <div class="line"></div>
+          </div>
+        </label>
+        <button class="formBtn" id="cancelButton">CANCEL</button>
+        <button class="formBtn" id="payButton">PAY</button>
+      </div>
+    </div>
+  </body>
+</html>
