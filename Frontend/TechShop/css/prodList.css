@@ -37,7 +37,7 @@
   outline: none;
   border-radius: 3px;
   cursor: pointer;
-  transition: ease 0.3s;
+  transition: ease 0.6s;
 }
 
 .buyBtn:hover {
@@ -49,16 +49,21 @@
   padding-top: 20px;
   padding-right: 0px;
   padding-left: 100px;
+  opacity: 0;
+  transition: ease 1.3s;
 }
 
 .price {
   font-size: 24px;
   padding-left: 0px;
   padding-top: 30px;
+  opacity: 0;
+  transition: ease 1.3s;
 }
 
 .title {
   font-size: 28px;
   margin-top: 10px;
   margin-bottom: 10px;
+  height: 40px;
 }
