@@ -1,24 +1,67 @@
 "use strict";
 
-window.onload = () => {
-  setItemsOpacity();
+document.addEventListener("DOMContentLoaded", () => {
   renderCategoryList();
-};
+  renderItemList();
+  setItemsOpacity();
+});
+
+function renderItemList(listOfItems) {
+  let li = document.createElement("li"),
+    divItem = document.createElement("div"),
+    divImage = document.createElement("div"),
+    img = document.createElement("img"),
+    divDesc = document.createElement("div"),
+    pTitle = document.createElement("p"),
+    divPrice = document.createElement("div"),
+    pPrice = document.createElement("p"),
+    divBtn = document.createElement("div"),
+    btn = document.createElement("button");
+
+  btn.classList.add("buyBtn");
+  btn.innerHTML = "BUYs";
+
+  divBtn.classList.add("col-lg-6", "prodBtn");
+  divBtn.append(btn);
+
+  pPrice.innerHTML = "Price: " + 2500 + "s";
+
+  divPrice.classList.add("col-lg-6", "price");
+  divPrice.append(pPrice);
+
+  pTitle.classList.add("title");
+  pTitle.innerHTML = "Mi Notebook Pro 2018 Scripted";
+
+  divDesc.classList.add("col-lg-6", "row", "prodDesc");
+  let description =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex  officiis natus eligendi. Perspiciatis saepe at tempore optio  doloribus nam itaque illo. Eaque natus voluptatibus quasi minima  eos eum recusandae similique.";
+  divDesc.append(pTitle, description, divPrice, divBtn);
+
+  img.classList.add("img-fluid", "prodPic");
+  let ref =
+    "https://www.gizmochina.com/wp-content/uploads/2019/03/XIDU-PhilBook-Max-Laptop-600x600.jpg";
+  img.src = ref;
+
+  divImage.classList.add("col-lg-5", "image");
+  divImage.append(img);
+
+  divItem.classList.add("col-lg-12", "row", "prodItem");
+  divItem.tabIndex = -1;
+  divItem.append(divImage, divDesc);
+
+  li.append(divItem);
+
+  document.querySelector("#prodList").append(li);
+}
 
 function renderCategoryList(listOfCategories) {
   for (let i = 0; i < 2; i++) {
-    let li = document.createElement("li");
-    let div = document.createElement("div");
-    div.classList.add("row");
-    div.classList.add("catItem");
+    let li = document.createElement("li"),
+      div = document.createElement("div");
+    div.classList.add("row", "catItem");
     div.innerHTML = "scripted";
     li.append(div);
     document.querySelector("#categoryList").append(li);
-
-    // let scripted = "scripted";
-    // document.querySelector("#categoryList").innerHTML += `<li>
-    //   <div class="row catItem">${scripted}</div>
-    // </li>`;
   }
 }
 

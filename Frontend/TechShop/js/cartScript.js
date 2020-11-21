@@ -1,16 +1,15 @@
 "use strict";
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
   renderMinusPlusBtns();
-};
+});
 
 function renderMinusPlusBtns() {
   const plusBtns = document.querySelectorAll(".plus");
 
   plusBtns.forEach((element) => {
     element.onclick = () => {
-      const arr = element.parentElement.children;
-      let span = arr[1];
+      let span = element.previousElementSibling;
       let value = +span.innerHTML;
       span.innerHTML = value + 1;
     };
@@ -20,10 +19,9 @@ function renderMinusPlusBtns() {
 
   minusBtns.forEach((element) => {
     element.onclick = () => {
-      const arr = element.parentElement.children;
-      let span = arr[1];
+      let span = element.nextElementSibling;
       let value = +span.innerHTML;
-      if (value === 0) return;
+      if (value == 0) return;
       span.innerHTML = value - 1;
     };
   });
