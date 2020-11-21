@@ -38,7 +38,7 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity getUser(HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new UserAccountDto(userAccount));
@@ -48,7 +48,7 @@ public class UserRestController {
     @GetMapping("contacts")
     public ResponseEntity getUserContacts(HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new ContactsDto(contactsService.getContacts(userAccount.getEmail())));
@@ -58,7 +58,7 @@ public class UserRestController {
     @PostMapping("contacts")
     public ResponseEntity updateUserContacts(@Valid @RequestBody ContactsDto contactsDto, HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null) {
                 Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
@@ -70,7 +70,7 @@ public class UserRestController {
     @GetMapping("cart")
     public ResponseEntity getUserCart(HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.getCartOrCreate(userAccount.getEmail())));
@@ -80,7 +80,7 @@ public class UserRestController {
     @PostMapping("cart")
     public ResponseEntity addItemToUserCart(@Valid @RequestBody ExAddItemDto exAddItemDto, HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.addToCart(userAccount.getEmail(), exAddItemDto.getId(), exAddItemDto.getQuantity())));
@@ -90,7 +90,7 @@ public class UserRestController {
     @PutMapping("cart")
     public ResponseEntity setDeliveryToUserCart(@RequestBody BooleanDto booleanDto, HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getBoolValue())));
@@ -100,7 +100,7 @@ public class UserRestController {
     @DeleteMapping("cart")
     public ResponseEntity clearUserCart(HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.clearCart(userAccount.getEmail())));
@@ -120,7 +120,7 @@ public class UserRestController {
     @PostMapping("order")
     public ResponseEntity createOrder(HttpServletRequest servletRequest){
 
-        UserAccount userAccount = securityCheck(servletRequest);
+        UserAccount userAccount = getUserAccountByJWTToken(servletRequest);
 
         if (userAccount != null) {
 
@@ -129,16 +129,9 @@ public class UserRestController {
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
-    private UserAccount securityCheck(HttpServletRequest servletRequest){
-
+    private UserAccount getUserAccountByJWTToken(HttpServletRequest servletRequest){
         String token = jwtTokenProvider.resolveToken(servletRequest);
-        Token tokenFromBd = tokenService.findByToken(token);
-
-        if(tokenFromBd.isValid())
-            return userAccountService
-                    .findByUsername(jwtTokenProvider
-                            .getUsername(token));
-        else return null;
+        return userAccountService.findByUsername(jwtTokenProvider.getUsername(token));
     }
 }
 
