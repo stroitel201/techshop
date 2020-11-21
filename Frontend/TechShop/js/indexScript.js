@@ -1,9 +1,9 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderCategoryList();
   renderItemList();
   setItemsOpacity();
+  renderCategoryList();
 });
 
 function renderItemList(listOfItems) {

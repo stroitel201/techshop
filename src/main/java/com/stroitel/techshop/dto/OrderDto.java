@@ -37,7 +37,6 @@ public class OrderDto {
                 .stream()
                 .map(OrderItemDto::new)
                 .collect(Collectors.toList());
-
         this.isExecuted = order.isExecuted();
         this.totalPrice = order.getTotalPrice();
         this.isDeliveryIncluded = order.isDeliveryIncluded();

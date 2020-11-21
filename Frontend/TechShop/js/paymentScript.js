@@ -22,4 +22,8 @@ $(document).ready(function () {
         element.parentNode.querySelector(".label-txt").style.color = "#b00000";
     });
   });
+
+  document.querySelector("#cancelButton").addEventListener("click", () => {
+    window.location.replace("cart.html");
+  });
 });

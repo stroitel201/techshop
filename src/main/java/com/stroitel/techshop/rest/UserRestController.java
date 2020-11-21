@@ -40,7 +40,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new UserAccountDto(userAccount));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -50,7 +50,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new ContactsDto(contactsService.getContacts(userAccount.getEmail())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -60,7 +60,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive()) {
+        if (userAccount != null) {
                 Contacts contacts = new Contacts(userAccount, contactsDto.getPhone(), contactsDto.getAddress(), contactsDto.getCityAndRegion());
                 return ResponseEntity.ok(new ContactsDto(contactsService.updateUserContacts(contacts, userAccount.getEmail())));
         }
@@ -72,7 +72,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.getCartOrCreate(userAccount.getEmail())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -82,7 +82,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.addToCart(userAccount.getEmail(), exAddItemDto.getId(), exAddItemDto.getQuantity())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -92,7 +92,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.setDelivery(userAccount.getEmail(), booleanDto.getBoolValue())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -102,7 +102,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive())
+        if (userAccount != null)
                 return ResponseEntity.ok(new CartDto(cartService.clearCart(userAccount.getEmail())));
         else return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
@@ -122,7 +122,7 @@ public class UserRestController {
 
         UserAccount userAccount = securityCheck(servletRequest);
 
-        if (userAccount != null && userAccount.isActive()) {
+        if (userAccount != null) {
 
             return ResponseEntity.ok(new OrderDto(orderService.createOrder(userAccount)));
         }

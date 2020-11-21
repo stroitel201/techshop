@@ -17,9 +17,13 @@ $(document).ready(function () {
   document.querySelector(".formBtn").addEventListener("click", () => {
     let arr = document.querySelectorAll(".input");
     console.log(arr);
+    let valid = true;
     arr.forEach((element) => {
-      if (element.value === "")
+      if (element.value === "") {
         element.parentNode.querySelector(".label-txt").style.color = "#b00000";
+        valid = false;
+      }
     });
+    if (valid) window.location.replace("index.html");
   });
 });
