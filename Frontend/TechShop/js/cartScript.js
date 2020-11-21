@@ -1,6 +1,10 @@
 "use strict";
 
 window.onload = function () {
+  renderMinusPlusBtns();
+};
+
+function renderMinusPlusBtns() {
   const plusBtns = document.querySelectorAll(".plus");
 
   plusBtns.forEach((element) => {
@@ -23,4 +27,4 @@ window.onload = function () {
       span.innerHTML = value - 1;
     };
   });
-};
+}
