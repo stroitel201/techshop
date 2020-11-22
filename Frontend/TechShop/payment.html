@@ -35,29 +35,55 @@
   <body>
     <div class="container">
       <div id="formInput">
-        <label>
-          <p class="label-txt">ACCOUNT NUMBER</p>
-          <input type="text" class="input" />
-          <div class="line-box">
-            <div class="line"></div>
+        <div class="col-lg-12">
+          <label>
+            <p class="label-txt">ACCOUNT NUMBER</p>
+            <input type="text" class="input" />
+            <div class="line-box">
+              <div class="line"></div>
+            </div>
+          </label>
+        </div>
+        <div class="col-lg-12">
+          <label>
+            <p class="label-txt">ACCOUNT OWNER</p>
+            <input type="text" class="input" />
+            <div class="line-box">
+              <div class="line"></div>
+            </div>
+          </label>
+        </div>
+        <div class="col-lg-12">
+          <div id="dateDiv" class="row">
+            <label id="monthLabel">
+              <p class="label-txt" id="cvvLabelTxt">MON</p>
+              <input type="text" class="input" id="cvvInput" />
+              <div class="line-box" id="cvvLineBox">
+                <div class="line"></div>
+              </div>
+            </label>
+            <label id="yearLabel">
+              <p class="label-txt" id="cvvLabelTxt">YEAR</p>
+              <input type="text" class="input" id="cvvInput" />
+              <div class="line-box" id="cvvLineBox">
+                <div class="line"></div>
+              </div>
+            </label>
+            <label id="cvvLabel">
+              <p class="label-txt" id="cvvLabelTxt">CVV</p>
+              <input type="text" class="input" id="cvvInput" />
+              <div class="line-box" id="cvvLineBox">
+                <div class="line"></div>
+              </div>
+            </label>
           </div>
-        </label>
-        <label>
-          <p class="label-txt">ACCOUNT OWNER</p>
-          <input type="text" class="input" />
-          <div class="line-box">
-            <div class="line"></div>
+        </div>
+        <div class="col-lg-12">
+          <div class="row">
+            <button class="formBtn" id="cancelButton">CANCEL</button>
+            <button class="formBtn" id="payButton">PAY</button>
           </div>
-        </label>
-        <label id="cvvLabel">
-          <p class="label-txt" id="cvvLabelTxt">CVV</p>
-          <input type="text" class="input" id="cvvInput" />
-          <div class="line-box" id="cvvLineBox">
-            <div class="line"></div>
-          </div>
-        </label>
-        <button class="formBtn" id="cancelButton">CANCEL</button>
-        <button class="formBtn" id="payButton">PAY</button>
+        </div>
       </div>
     </div>
   </body>

@@ -15,9 +15,23 @@ label {
   margin: 40px 0px;
 }
 
+#monthLabel {
+  width: 16%;
+  left: 60px;
+  margin: 0px 0px;
+  margin-bottom: 40px;
+}
+#yearLabel {
+  width: 18%;
+  left: 110px;
+  margin: 0px 0px;
+  margin-bottom: 40px;
+}
 #cvvLabel {
   width: 15%;
-  left: 200px;
+  left: 150px;
+  margin: 0px 0px;
+  margin-bottom: 40px;
 }
 
 .label-txt {
