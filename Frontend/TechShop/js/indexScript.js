@@ -1,10 +1,19 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#searchInput").addEventListener("keyup", (e) => {
+    if (e.keyCode === 13 && e.target.value) {
+      search(e.target.value);
+    }
+  });
   renderItemList();
   setItemsOpacity();
   renderCategoryList();
 });
+
+function search(value) {
+  alert(value);
+}
 
 function renderItemList(listOfItems) {
   let li = document.createElement("li"),

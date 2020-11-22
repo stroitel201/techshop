@@ -27,6 +27,9 @@
   display: inline-block;
 }
 
+#checkBoxLabel:hover {
+  cursor: pointer;
+}
 #checkBox {
   width: 17px;
   height: 17px;

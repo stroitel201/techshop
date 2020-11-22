@@ -1,0 +1,25 @@
+#searchLabel {
+  font-family: Montserrat, sans-serif;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+
+#searchTxt {
+  width: 100%;
+  padding: 0px 500px;
+  font-size: 22px;
+}
+
+.label-active {
+  top: -45px !important;
+  color: black !important;
+  font-size: 1.3em !important;
+}
+
+.line {
+  background: #4cd137 !important;
+}
+
+.input {
+  text-align: center;
+}

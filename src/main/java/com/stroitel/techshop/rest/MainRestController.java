@@ -62,4 +62,9 @@ public class MainRestController {
         return ResponseEntity.ok(new UserProductDto(productService.getProduct(id)));
     }
 
+    @GetMapping("products/{name}")
+    public ResponseEntity getProductByName(@PathVariable("name") String name){
+
+        return ResponseEntity.ok(new UserProductDto((productService.findByName(name))));
+    }
 }

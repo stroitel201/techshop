@@ -124,4 +124,10 @@ public class ProductServiceImpl implements ProductService {
         product.setAvailable(false);
         return productDAO.save(product);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Product findByName(String name) {
+        return productDAO.findByName(name);
+    }
 }
