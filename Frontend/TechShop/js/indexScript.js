@@ -1,15 +1,27 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
+  fetch("http://localhost:8080/api/v1/main/categories/", {
+    mode: "no-cors",
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((data) => data.json())
+    .then((data) => {
+      renderCategoryList(data);
+    });
+});
+
+function setSearch() {
   document.querySelector("#searchInput").addEventListener("keyup", (e) => {
     if (e.keyCode === 13 && e.target.value) {
       search(e.target.value);
     }
   });
-  renderItemList();
-  setItemsOpacity();
-  renderCategoryList();
-});
+}
 
 function search(value) {
   alert(value);
@@ -64,11 +76,11 @@ function renderItemList(listOfItems) {
 }
 
 function renderCategoryList(listOfCategories) {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < listOfCategories.length; i++) {
     let li = document.createElement("li"),
       div = document.createElement("div");
     div.classList.add("row", "catItem");
-    div.innerHTML = "scripted";
+    div.innerHTML = listOfCategories[i].title;
     li.append(div);
     document.querySelector("#categoryList").append(li);
   }
