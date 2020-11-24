@@ -18,7 +18,7 @@ public interface ProductService {
 
     List<Product> findByCategory(Category category, PageRequest request);
 
-    Product findByName(String name);
+    List<Product> findByName(String name, PageRequest request);
 
     List<Product> findByAvailability(String available, PageRequest request);
 

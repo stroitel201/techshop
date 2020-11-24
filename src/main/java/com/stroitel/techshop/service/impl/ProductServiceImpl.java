@@ -127,7 +127,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(readOnly = true)
     @Override
-    public Product findByName(String name) {
-        return productDAO.findByName(name);
+    public List<Product> findByName(String name, PageRequest request)
+    {
+        return productDAO.findAllByNameContains(name, request).getContent();
     }
 }

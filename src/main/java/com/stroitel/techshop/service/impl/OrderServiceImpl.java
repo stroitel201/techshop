@@ -3,6 +3,7 @@ package com.stroitel.techshop.service.impl;
 import com.stroitel.techshop.dao.OrderDAO;
 import com.stroitel.techshop.domain.Order;
 import com.stroitel.techshop.domain.UserAccount;
+import com.stroitel.techshop.service.CartService;
 import com.stroitel.techshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDAO orderDAO;
+    @Autowired
+    private CartService cartService;
 
     @Transactional(readOnly = true)
     @Override
@@ -41,6 +44,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order(userAccount);
         orderDAO.saveAndFlush(order);
         order.calculateTotalPrice();
+
+        cartService.clearCart(userAccount.getEmail());
         return orderDAO.save(order);
     }
 

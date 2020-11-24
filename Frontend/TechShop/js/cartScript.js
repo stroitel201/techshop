@@ -3,6 +3,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   renderCartItems();
   renderMinusPlusBtns();
+  renderCartCount();
 });
 
 function renderCartItems() {

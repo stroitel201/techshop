@@ -39,10 +39,16 @@ public class MainRestController {
     }
 
     @GetMapping("products")
-    public ResponseEntity getProducts(@RequestParam(name = "category", required = false) String categoryTitle,
-                                      @RequestParam(name = "page") Integer pageNumber,
+    public ResponseEntity getProducts(@RequestParam(name = "name", required = false) String name,
+                                      @RequestParam(name = "category", required = false) String categoryTitle,
+                                      @RequestParam(name = "page", defaultValue = "0") Integer pageNumber,
                                       @RequestParam(name = "size", defaultValue = "20") Integer pageSize){
 
+        if(name != null)
+            return ResponseEntity.ok((productService.findByName(name, PageRequest.of(pageNumber, pageSize)))
+                        .stream()
+                        .map(UserProductDto::new)
+                        .collect(Collectors.toList()));
         if(categoryTitle != null){
             Category category = categoryService.findByTitle(categoryTitle);
             return ResponseEntity.ok(productService.findByCategory(category, PageRequest.of(pageNumber, pageSize))
@@ -62,9 +68,4 @@ public class MainRestController {
         return ResponseEntity.ok(new UserProductDto(productService.getProduct(id)));
     }
 
-    @GetMapping("products/{name}")
-    public ResponseEntity getProductByName(@PathVariable("name") String name){
-
-        return ResponseEntity.ok(new UserProductDto((productService.findByName(name))));
-    }
 }

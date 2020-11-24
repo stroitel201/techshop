@@ -11,7 +11,7 @@ public interface ProductDAO extends CrudRepository<Product, Long>, JpaRepository
 
     Page<Product> findByCategoryOrderByName(Category category, Pageable request);
 
-    Product findByName(String name);
+    Page<Product> findAllByNameContains(String name, Pageable request);
 
     Page<Product> findByAvailableOrderByName(boolean available, Pageable request);
 }
