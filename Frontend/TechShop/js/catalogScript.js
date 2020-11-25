@@ -1,13 +1,19 @@
 "use strict";
 
+let items;
+let categories;
+
 document.addEventListener("DOMContentLoaded", () => {
   setCategories();
   doFetch("main/categories/", "GET").then((data) => {
+    categories = data;
     renderCategoryList(data);
   });
   doFetch("main/products/?page=0", "GET").then((data) => {
+    items = data;
     renderItemList(data);
   });
+
   renderCartCount();
 });
 

@@ -1,10 +1,14 @@
 "use strict";
 
+let items;
+
 document.addEventListener("DOMContentLoaded", () => {
   setSearch();
   doFetch("main/products/?page=0", "GET").then((data) => {
+    items = data;
     renderItemList(data);
   });
+
   renderCartCount();
 });
 

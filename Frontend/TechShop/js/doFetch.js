@@ -16,8 +16,25 @@ function doFetch(
     headers,
     body,
   }).then((data) => {
-    if (data.status != 200 || data.status === 403)
-      window.location.replace("login.html");
-    else return data.json();
+    if (!data.ok) return null;
+    return data.json();
   });
+}
+
+function addItemToCartFetch(id, count) {
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+  console.log(+id, count);
+  return doFetch(
+    "user/cart",
+    "POST",
+    headers,
+    JSON.stringify({
+      id: +id,
+      quantity: count,
+    })
+  );
 }

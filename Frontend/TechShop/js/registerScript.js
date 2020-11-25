@@ -24,28 +24,28 @@ function setFormButton() {
     });
     if (valid) {
       doFetch(
-        "auth/login",
+        "auth/register",
         "POST",
         headers,
-        JSON.stringify(getLoginCredentials())
+        JSON.stringify(getRegisterCredentials())
       ).then((data) => {
-        console.log(data);
-        tokenCookie(data);
-        window.location.replace("index.html");
+        if (data.username == getRegisterCredentials().username)
+          window.location.replace("login.html");
+        else window.location.replace("register.html");
       });
     }
   });
 }
 
-function getLoginCredentials() {
+function getRegisterCredentials() {
   let credentials = {},
     inputs = [].slice.call(document.querySelectorAll(".input"));
 
   credentials.username = inputs[0].value;
   credentials.password = inputs[1].value;
+  credentials.email = inputs[2].value;
+  credentials.phone = inputs[3].value;
+  credentials.address = inputs[4].value;
+  credentials.cityAndRegion = inputs[5].value;
   return credentials;
-}
-
-function tokenCookie(data) {
-  document.cookie = "Authorization=Bearer " + data.token + "; path=/";
 }

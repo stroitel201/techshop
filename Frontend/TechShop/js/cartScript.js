@@ -1,18 +1,93 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
-  renderCartItems();
-  renderMinusPlusBtns();
-  renderCartCount();
+  setLogout();
+  setItemsInfo();
+  setPersonalInfo();
 });
 
-function renderCartItems() {
+function setLogout() {
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    doFetch("user/logout", "POST", headers).then(() =>
+      window.location.replace("login.html")
+    );
+  });
+}
+
+async function setPersonalInfo() {
+  let name = document.querySelector("#name");
+  let email = document.querySelector("#email");
+  let phone = document.querySelector("#phone");
+  let city = document.querySelector("#address");
+  let street = document.querySelector("#street");
+  let country = document.querySelector("#country");
+
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+  let person = await doFetch("user/", "GET", headers);
+  let contacts = await doFetch("user/contacts", "GET", headers);
+
+  if (person && contacts) {
+    console.log(contacts);
+    console.log(city);
+    name.innerHTML = person.username;
+    email.innerHTML = person.email;
+    phone.innerHTML = contacts.phone;
+    city.value = contacts.address;
+    country.value = contacts.cityAndRegion;
+  } else window.location.replace("login.html");
+}
+
+function setItemsInfo() {
+  let totalPrice = document.querySelector("#totalPrice");
+  let deliveryIncluded = document.querySelector("#checkBox");
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+
+  doFetch("user/cart", "GET", headers).then((data) => {
+    if (data) {
+      renderCartList(data.list);
+      renderCartCount(data.itemsCount);
+      totalPrice.innerHTML = "Total price: " + data.itemsCost;
+      if (data.deliveryIncluded) deliveryIncluded.checked = true;
+      else deliveryIncluded.checked = false;
+    } else {
+      totalPrice.innerHTML = "Total price: " + 0;
+      deliveryIncluded.checked = false;
+      renderCartCount(0);
+    }
+  });
+}
+
+function renderCartList(listOfItems) {
+  clearItemList();
+  listOfItems.forEach((item) => {
+    console.log(item);
+    renderCartItem(item);
+  });
+  renderMinusPlusBtns();
+}
+
+function renderCartItem(item) {
   let li = document.createElement("li"),
     divItem = document.createElement("div"),
     divImage = document.createElement("div"),
     img = document.createElement("img"),
     divDesc = document.createElement("div"),
     pTitle = document.createElement("p"),
+    divText = document.createElement("div"),
     divPrice = document.createElement("div"),
     pPrice = document.createElement("p"),
     divBtn = document.createElement("div"),
@@ -27,28 +102,27 @@ function renderCartItems() {
   btnPlus.innerHTML = "+";
 
   spanCount.classList.add("value");
-  spanCount.innerHTML = "6";
+  spanCount.innerHTML = item.quantity;
 
   divBtn.classList.add("col-lg-6", "prodBtn");
   divBtn.append(btnMinus, spanCount, btnPlus);
 
-  pPrice.innerHTML = "Price: " + 2500 + "s";
+  pPrice.innerHTML = "Price: " + item.product.price;
 
   divPrice.classList.add("col-lg-6", "price");
   divPrice.append(pPrice);
 
   pTitle.classList.add("title");
-  pTitle.innerHTML = "Mi Notebook Pro 2018 Scripted";
+  pTitle.innerHTML = item.product.name;
+
+  divText.classList.add("col-lg-12", "description");
+  divText.innerHTML = item.product.description;
 
   divDesc.classList.add("col-lg-6", "row", "prodDesc");
-  let description =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex  officiis natus eligendi. Perspiciatis saepe at tempore optio  doloribus nam itaque illo. Eaque natus voluptatibus quasi minima  eos eum recusandae similique.";
-  divDesc.append(pTitle, description, divPrice, divBtn);
+  divDesc.append(pTitle, divText, divPrice, divBtn);
 
   img.classList.add("img-fluid", "prodPic");
-  let ref =
-    "https://www.gizmochina.com/wp-content/uploads/2019/03/XIDU-PhilBook-Max-Laptop-600x600.jpg";
-  img.src = ref;
+  img.src = item.product.pictureRef;
 
   divImage.classList.add("col-lg-5", "image");
   divImage.append(img);

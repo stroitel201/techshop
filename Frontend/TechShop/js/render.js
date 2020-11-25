@@ -7,17 +7,32 @@ window.getCookie = function (name) {
   return token;
 };
 
-function renderCartCount() {
-  let headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: getCookie("Authorization"),
-  };
+function setBuyBtns() {
+  let btns = document.querySelectorAll(".buyBtn");
+  btns.forEach((btn) =>
+    btn.addEventListener("click", (e) => {
+      addItemToCartFetch(e.target.id, 1).then((data) => {
+        if (data == null) window.location.replace("login.html");
+        else renderCartCount(data.itemsCount);
+      });
+    })
+  );
+}
 
-  doFetch("user/cart", "GET", headers).then((data) => {
-    if (data) document.querySelector("#counter").innerHTML = data.itemsCount;
-    else document.querySelector("#counter").innerHTML = 0;
-  });
+function renderCartCount(count) {
+  if (count) document.querySelector("#counter").innerHTML = count;
+  else {
+    let headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: getCookie("Authorization"),
+    };
+
+    doFetch("user/cart", "GET", headers).then((data) => {
+      if (data) document.querySelector("#counter").innerHTML = data.itemsCount;
+      else document.querySelector("#counter").innerHTML = 0;
+    });
+  }
 }
 
 function clearItemList() {
@@ -30,6 +45,7 @@ function renderItemList(listOfItems) {
     console.log(item);
     renderItem(item);
   });
+  setBuyBtns();
   setItemsOpacity();
 }
 
@@ -48,6 +64,7 @@ function renderItem(item) {
 
   btn.classList.add("buyBtn");
   btn.innerHTML = "BUY";
+  btn.id = item.id;
 
   divBtn.classList.add("col-lg-6", "prodBtn");
   divBtn.append(btn);
