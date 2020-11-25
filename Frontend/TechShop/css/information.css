@@ -65,6 +65,27 @@
   color: #ffffff;
 }
 
+.removeBtn {
+  font-family: Montserrat, sans-serif !important;
+  font-size: 30px;
+  font-weight: 400;
+  display: inline-block;
+  padding: 0px 12px;
+  background: rgb(220, 220, 220);
+  margin: 0px 5px;
+  color: rgb(120, 120, 120);
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+
+.removeBtn:hover {
+  background: #b00000;
+  color: #ffffff;
+}
+
 .ordrBtn {
   font-family: Montserrat, sans-serif !important;
   font-size: 24px;
@@ -88,7 +109,15 @@
 
 #orderBtn {
   padding: 10px 15px;
-  margin-bottom: 10px;
+}
+
+#clear:hover {
+  background: #b00000;
+  color: #ffffff;
+}
+
+#clearBtn {
+  padding: 0px 15px;
 }
 
 .value {
@@ -97,9 +126,9 @@
 }
 
 .prodBtn {
-  padding-top: 25px;
+  padding-top: 10px;
   padding-right: 0px;
-  padding-left: 90px;
+  padding-left: 60px;
 }
 
 .input {

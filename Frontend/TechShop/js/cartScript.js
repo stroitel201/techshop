@@ -2,10 +2,59 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   setLogout();
+  setCheckBox();
+  setOrderBtn();
+  setClearBtn();
   setItemsInfo();
   setPersonalInfo();
 });
 
+function setOrderBtn() {
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+  let btn = document.querySelector(".ordrBtn");
+  btn.addEventListener("click", () => {
+    doFetch("user/cart", "GET", headers).then((data) => {
+      if (data.itemsCount > 0) window.location.replace("payment.html");
+    });
+  });
+}
+
+function setCheckBox() {
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+  let deliveryIncluded = document.querySelector("#checkBox");
+  deliveryIncluded.addEventListener("click", (e) => {
+    console.log(e.target.checked);
+    doFetch(
+      "user/cart",
+      "PUT",
+      headers,
+      JSON.stringify({ boolValue: e.target.checked })
+    );
+  });
+}
+
+function setClearBtn() {
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: getCookie("Authorization"),
+  };
+
+  let btn = document.querySelector("#clear");
+  btn.addEventListener("click", () => {
+    doFetch("user/cart", "DELETE", headers).then((data) =>
+      renderItemsInfo(data)
+    );
+  });
+}
 function setLogout() {
   let headers = {
     Accept: "application/json",
@@ -48,8 +97,6 @@ async function setPersonalInfo() {
 }
 
 function setItemsInfo() {
-  let totalPrice = document.querySelector("#totalPrice");
-  let deliveryIncluded = document.querySelector("#checkBox");
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -57,18 +104,25 @@ function setItemsInfo() {
   };
 
   doFetch("user/cart", "GET", headers).then((data) => {
-    if (data) {
-      renderCartList(data.list);
-      renderCartCount(data.itemsCount);
-      totalPrice.innerHTML = "Total price: " + data.itemsCost;
-      if (data.deliveryIncluded) deliveryIncluded.checked = true;
-      else deliveryIncluded.checked = false;
-    } else {
-      totalPrice.innerHTML = "Total price: " + 0;
-      deliveryIncluded.checked = false;
-      renderCartCount(0);
-    }
+    renderItemsInfo(data);
   });
+}
+
+function renderItemsInfo(data) {
+  let totalPrice = document.querySelector("#totalPrice");
+  let deliveryIncluded = document.querySelector("#checkBox");
+
+  if (data) {
+    renderCartList(data.list);
+    renderCartCount(data.itemsCount);
+    totalPrice.innerHTML = "Total price: " + data.itemsCost;
+    if (data.deliveryIncluded) deliveryIncluded.checked = true;
+    else deliveryIncluded.checked = false;
+  } else {
+    totalPrice.innerHTML = "Total price: " + 0;
+    deliveryIncluded.checked = false;
+    renderCartCount(0);
+  }
 }
 
 function renderCartList(listOfItems) {
@@ -77,6 +131,7 @@ function renderCartList(listOfItems) {
     console.log(item);
     renderCartItem(item);
   });
+  renderRemoveBtns();
   renderMinusPlusBtns();
 }
 
@@ -91,21 +146,28 @@ function renderCartItem(item) {
     divPrice = document.createElement("div"),
     pPrice = document.createElement("p"),
     divBtn = document.createElement("div"),
+    btnRemove = document.createElement("button"),
     btnPlus = document.createElement("button"),
     btnMinus = document.createElement("button"),
     spanCount = document.createElement("span");
 
+  btnRemove.classList.add("removeBtn");
+  btnRemove.id = item.product.id;
+  btnRemove.innerHTML = "X";
+
   btnMinus.classList.add("cartBtn", "minus");
+  btnMinus.id = item.product.id;
   btnMinus.innerHTML = "-";
 
   btnPlus.classList.add("cartBtn", "plus");
+  btnPlus.id = item.product.id;
   btnPlus.innerHTML = "+";
 
   spanCount.classList.add("value");
   spanCount.innerHTML = item.quantity;
 
   divBtn.classList.add("col-lg-6", "prodBtn");
-  divBtn.append(btnMinus, spanCount, btnPlus);
+  divBtn.append(btnRemove, btnMinus, spanCount, btnPlus);
 
   pPrice.innerHTML = "Price: " + item.product.price;
 
@@ -136,25 +198,43 @@ function renderCartItem(item) {
   document.querySelector("#prodList").append(li);
 }
 
+function renderRemoveBtns() {
+  const btns = document.querySelectorAll(".removeBtn");
+
+  btns.forEach((element) => {
+    element.addEventListener("click", (e) => {
+      addItemToCartFetch(e.target.id, 0).then((data) => {
+        if (data) renderItemsInfo(data);
+        else window.location.replace(login.html);
+      });
+    });
+  });
+}
+
 function renderMinusPlusBtns() {
   const plusBtns = document.querySelectorAll(".plus");
 
   plusBtns.forEach((element) => {
-    element.onclick = () => {
-      let span = element.previousElementSibling;
+    element.addEventListener("click", (e) => {
+      let span = e.target.previousElementSibling;
       let value = +span.innerHTML;
-      span.innerHTML = value + 1;
-    };
+      addItemToCartFetch(e.target.id, value + 1).then((data) => {
+        if (data) renderItemsInfo(data);
+        else window.location.replace(login.html);
+      });
+    });
   });
 
   const minusBtns = document.querySelectorAll(".minus");
 
   minusBtns.forEach((element) => {
-    element.onclick = () => {
-      let span = element.nextElementSibling;
+    element.addEventListener("click", (e) => {
+      let span = e.target.nextElementSibling;
       let value = +span.innerHTML;
-      if (value == 0) return;
-      span.innerHTML = value - 1;
-    };
+      addItemToCartFetch(e.target.id, value - 1).then((data) => {
+        if (data) renderItemsInfo(data);
+        else window.location.replace(login.html);
+      });
+    });
   });
 }
