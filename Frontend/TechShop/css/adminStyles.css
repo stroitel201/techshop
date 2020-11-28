@@ -64,3 +64,19 @@ button:hover {
   margin-top: 0px;
   opacity: 1;
 }
+
+#categoryList {
+  margin: 10px 15px 10px 15px;
+}
+
+.catItem {
+  margin: 5px;
+  padding: 5px 10px;
+  font-family: Montserrat, sans-serif !important;
+  font-size: 20px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: ease 0.6s;
+  color: rgb(120, 120, 120);
+}

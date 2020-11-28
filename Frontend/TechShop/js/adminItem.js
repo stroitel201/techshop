@@ -40,7 +40,9 @@ function setAddButton() {
     data.append("price", +price.value);
     data.append("file", file.files[0]);
     console.log(data);
-    doFetch("admin/products", "POST", headers, data);
+    doFetch("admin/products", "POST", headers, data).then((data) => {
+      if (data) window.location.reload();
+    });
   });
 }
 

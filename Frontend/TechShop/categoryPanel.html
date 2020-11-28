@@ -27,7 +27,12 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="css/prodList.css" />
     <link rel="stylesheet" href="css/adminStyles.css" />
+
+    <script src="js/render.js"></script>
+    <script src="js/doFetch.js"></script>
+    <script src="js/adminCategory.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-light bg-light">
@@ -40,30 +45,13 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="row">
-        <div
-          tabindex="-1"
-          id="items"
-          class="mainItem col-lg-6"
-          onclick="window.location.replace('itemsPanel.html')"
-        >
-          <span>Items</span>
-        </div>
-        <div
-          tabindex="-1"
-          id="cats"
-          class="mainItem col-lg-6"
-          onclick="window.location.replace('categoryPanel.html')"
-        >
-          <span>Categories</span>
-        </div>
-        <div tabindex="-1" id="users" class="mainItem col-lg-6">
-          <span>Users</span>
-        </div>
-        <div tabindex="-1" id="orders" class="mainItem col-lg-6">
-          <span>Orders</span>
-        </div>
+    <div class="row container-fluid">
+      <div class="col-lg-9" id="list">
+        <ul class="row list-unstyled" id="categoryList"></ul>
+      </div>
+      <div class="col-lg-3" id="addItem">
+        <input class="input" id="name" type="text" placeholder="Name" />
+        <div><button id="addBtn" class="panelBtn">ADD</button></div>
       </div>
     </div>
   </body>
