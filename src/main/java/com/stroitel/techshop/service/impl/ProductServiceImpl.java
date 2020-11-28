@@ -84,6 +84,8 @@ public class ProductServiceImpl implements ProductService {
     public Product update(long productId, Product product, String categoryTitle){
         Product original = getProduct(productId);
         product.setId(original.getId());
+        if(product.getPictureRef() == null)
+            product.setPictureRef(original.getPictureRef());
         return saveInternal(product, categoryTitle, original.isAvailable()); // keep original availability
     }
 

@@ -7,8 +7,8 @@
 }
 
 .prodPic {
-  min-width: 400px;
-  min-height: 400px;
+  max-width: 400px;
+  max-height: 400px;
 }
 .prodDesc {
   font-size: 20px;
