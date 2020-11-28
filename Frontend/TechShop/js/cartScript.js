@@ -17,8 +17,21 @@ function setOrderBtn() {
   };
   let btn = document.querySelector(".ordrBtn");
   btn.addEventListener("click", () => {
+    let city = document.querySelector("#address");
+    let phoneOrder = document.querySelector("#phoneOrder");
+    let country = document.querySelector("#country");
     doFetch("user/cart", "GET", headers).then((data) => {
-      if (data.itemsCount > 0) window.location.replace("payment.html");
+      if (data.itemsCount > 0)
+        doFetch(
+          "user/contacts",
+          "POST",
+          headers,
+          JSON.stringify({
+            phone: phoneOrder.value,
+            address: city.value,
+            cityAndRegion: country.value,
+          })
+        ).then(window.location.replace("payment.html"));
     });
   });
 }
@@ -74,7 +87,7 @@ async function setPersonalInfo() {
   let email = document.querySelector("#email");
   let phone = document.querySelector("#phone");
   let city = document.querySelector("#address");
-  let street = document.querySelector("#street");
+  let phoneOrder = document.querySelector("#phoneOrder");
   let country = document.querySelector("#country");
 
   let headers = {
@@ -91,6 +104,7 @@ async function setPersonalInfo() {
     name.innerHTML = person.username;
     email.innerHTML = person.email;
     phone.innerHTML = contacts.phone;
+    phoneOrder.value = contacts.phone;
     city.value = contacts.address;
     country.value = contacts.cityAndRegion;
   } else window.location.replace("login.html");
