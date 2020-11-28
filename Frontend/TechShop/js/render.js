@@ -84,7 +84,7 @@ function renderItem(item) {
   divDesc.append(pTitle, divText, divPrice, divBtn);
 
   img.classList.add("img-fluid", "prodPic");
-  img.src = item.ref;
+  img.src = item.pictureRef;
 
   divImage.classList.add("col-lg-5", "image");
   divImage.append(img);

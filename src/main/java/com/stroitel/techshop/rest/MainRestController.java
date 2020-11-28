@@ -56,7 +56,7 @@ public class MainRestController {
                         .map(UserProductDto::new)
                         .collect(Collectors.toList()));
         }
-        else return ResponseEntity.ok(productService.findAll(PageRequest.of(pageNumber, pageSize))
+        else return ResponseEntity.ok(productService.findByAvailability("true",PageRequest.of(pageNumber, pageSize))
                     .stream()
                     .map(UserProductDto::new)
                     .collect(Collectors.toList()));

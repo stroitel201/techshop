@@ -9,9 +9,9 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProductDAO extends CrudRepository<Product, Long>, JpaRepository<Product, Long> {
 
-    Page<Product> findByCategoryOrderByName(Category category, Pageable request);
+    Page<Product> findByCategoryAndAvailableOrderByName(Category category, boolean available, Pageable request);
 
-    Page<Product> findAllByNameContains(String name, Pageable request);
+    Page<Product> findAllByNameContainsAndAvailableOrderByName(String name, boolean available, Pageable request);
 
     Page<Product> findByAvailableOrderByName(boolean available, Pageable request);
 }

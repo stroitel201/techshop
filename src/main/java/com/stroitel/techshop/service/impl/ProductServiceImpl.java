@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     @Override
     public List<Product> findByCategory(Category category, PageRequest request) {
-        return productDAO.findByCategoryOrderByName(category, request).getContent();
+        return productDAO.findByCategoryAndAvailableOrderByName( category, true, request).getContent();
     }
 
 
@@ -129,6 +129,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByName(String name, PageRequest request)
     {
-        return productDAO.findAllByNameContains(name, request).getContent();
+        return productDAO.findAllByNameContainsAndAvailableOrderByName(name, true, request).getContent();
     }
 }
