@@ -50,11 +50,11 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Cart getOrder() {
+    public Cart getCart() {
         return cart;
     }
 
-    public void setOrder(Cart cart) {
+    public void setCart(Cart cart) {
         this.cart = cart;
         pk.setCart(cart.getId());
     }

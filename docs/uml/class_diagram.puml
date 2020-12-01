@@ -1,0 +1,296 @@
+@startuml ClassDiagram
+
+scale 3000 width
+scale 1300 height
+
+class AWSLoader {
+    +clientRegion: Region
+    +bucketName: String
+    +s3Client: S3Client
+    +{method}AWSLoader(clientRegion: Region, String bucketName)
+    +{method}UploadObject(file: MultipartFile)
+}
+
+interface CartDAO{
+
+}
+
+interface CartDAO{
+  +{method}findByTitle(title: String)
+}
+
+interface CartDAO{
+  +{method}findByUserAccount(userAccount: UserAccount)
+}
+
+interface OrderDAO{
+  +{method}findByUserAccount(userAccount: UserAccount)
+}
+
+interface ProductDAO{
+  +{method}findByCategoryAndAvailableOrderByName(category: Category, available: boolean, request: Pageable)
+  +{method}findAllByNameContainsAndAvailableOrderByName(name: String, available: boolean, request: Pageable)
+  +{method}findByAvailableOrderByName(available: boolean, request: Pageable)
+}
+
+interface TokenDAO{
+  +{method}findByToken(token: String)
+}
+
+interface UserAccountDAO{
+  +{method}findByEmail(email: String)
+  +{method}findByName(name: String)
+}
+
+Package "Domain"{
+    class Cart{
+        +id: Long
+        +userAccount: UserAccount
+        +cartItems: List<CartItem>
+        +deliveryIncluded: boolean
+        +itemsCost: double
+        +{method}Cart()
+        +{method}Cart(userAccount: UserAccount)
+        +{method}update(product: Product, newQuantity: int)
+        +{method}removeItem(productId: long)
+        +{method}findItem(productId: long)
+        +{method}calculateItemsCost()
+        +{method}clear()
+        +{method}checkAvailability()
+    }
+
+    class CartItem{
+        +pk: CartItemId
+        +cart: Cart
+        +product: Product
+        +quantity: int
+        +{method}CartItem()
+        +{method}CartItem(cart: Cart, product: Product, quantity: int)
+        +{method}calculateCost()
+        +{method}setCart(cart: Cart)
+        +{method}setProduct(product: Product)
+    }
+
+    class CartItemId{
+        +cartId: long
+        +productId: long
+        +{method}CartItemId()
+        +{method}CartItemId(cartId: long, productId: long)
+    }
+
+    class Category{
+        +id: Long
+        +title: String
+    }
+
+    class Contacts{
+        +id: Long
+        +userAccount: UserAccount
+        +phone: String
+        +address: String
+        +region: String
+        +{method}Contacts(userAccount: UserAccount, phone: String, region: String)
+    }
+
+    class Order{
+        +id: Long
+        +userAccount: UserAccount
+        +orderItems: List<OrderItem>
+        +isExecuted: boolean
+        +dateCreated: Date
+        +deliveryCost: int
+        +deliveryIncluded: boolean
+        +totalPrice: double
+        +{method}Order(userAccount: UserAccount)
+        +{method}calculateTotalPrice()
+    }
+
+    class OrderItem{
+        +pk: OrderItemId
+        +order: Order
+        +product Product
+        +quantity: int
+        +{method}OrderItem(order: Order, product: Product, quantity: int)
+        +{method}calculateCost()
+    }
+
+    class OrderItemId{
+        +orderId: long
+        +productId: long
+        +{method}OrderItemId(orderId: long, productId: long)
+    }
+
+    class Product{
+        +id: Long
+        +category: Category
+        +name: String
+        +description: String
+        +price: Integer
+        +pictureRef: String
+        +available: boolean
+        +{method}Product()
+    }
+
+    class Role{
+        +id: Long
+        +title: String
+        +users: Set<UserAccount>
+        +Roles: enum
+    }
+
+    class Token{
+        +id: Long
+        +token: String
+        +isValid: boolean
+        +{method}Token(token: String)
+    }
+
+    class UserAccount{
+        +id: Long
+        +email: String
+        +password: String
+        +name: String
+        +active: boolean
+        +contacts: Contacts
+        +cart: Cart
+        +roles: Set<Role>
+    }
+}
+
+Package "DTO"{
+    class AdminProductDto{
+        +id: Long
+        +name: String
+        +description: String
+        +category: String
+        +pictureRef: String
+        +price: Integer
+        +isAvailable: boolean
+        +{method}AdminProductDto(product: Product)
+    }
+
+    class AdminUserDto{
+        +id: Long
+        +email: String
+        +password: String
+        +name: String
+        +active: boolean
+        +roles: Set<Role>
+    }
+
+    class AuthenticationRequestDto{
+        +username: String
+        +password: String
+    }
+
+    class BooleanDto{
+        +boolValue: boolean
+    }
+
+    class CartDto{
+        +list<CartItemDto>
+        +deliveryIncluded: boolean
+        +itemsCount: int
+        +itemsCost: double
+        +{method}CartDto(cart: Cart)
+    }
+
+    class CartItemDto{
+        +product: UserProductDto
+        +quantity: Integer
+        +{method}CartItemDto(cartItem: cartItem)
+    }
+
+    class CategoryDto{
+        +id: Long
+        +title: String
+        +{method}CategoryDto(category: Category)
+    }
+
+    class ContactsDto{
+        +phone: String
+        +address: String
+        +region: String
+        +{method}ContactsDto(contacts: Contacts)
+    }
+
+    class ExAddItemDto{
+        +id: Long
+        +quantity: Integer
+    }
+
+    class ExProductDto{
+        +name: String
+        +description: String
+        +category: String
+        +price: Integer
+    }
+
+    class OrderDto{
+        +orderId: Long
+        +userId: Long
+        +list: List<OrderItemDto>
+        +isDeliveryIncluded: boolean
+        +isExecuted: boolean
+        +deliveryCost: double
+        +dateCreated: Date
+        +totalPrice: double
+        +{method}OrderDto(order: Order)
+    }
+
+    class OrderItemDto{
+        +product: UserProductDto
+        +quantity: Integer
+        +{method}OrderItemDto(orderItem OrderItem)
+    }
+
+    class RegisterUserDto{
+        +username: String
+        +password: String
+        +email: String
+        +phone: String
+        +address: String
+        +region: String
+    }
+
+    class UserAccountDto{
+        +id: Long
+        +username: String
+        +email: String
+        +{method}UserAccountDto(userAccount: UserAccount)
+    }
+
+    class UserProductDto{
+        +id: Long
+        +name: String
+        +description: String
+        +category: String
+        +pictureRef:String
+        +price: Integer
+        +{method}UserProductDto(product: Product)
+    }
+}
+
+Package "Configs"{
+    class SecurityConfig{
+        +jwtTokenProvider: JwtTokenProvider
+        +tokenService: TokenService
+        +ADMIN_ENDPOINT: String
+        +USER_ENDPOINT: String
+        +AUTH_ENDPOINT: String
+        +MAIN_ENDPOINT: String
+        +{method}SecurityConfig(jwtTokenProvider: JwtTokenProvider, tokenService: TokenService)
+        +{method}configure(http: HttpSecurity)
+    }
+    class MvcConfig{
+        +{method}addCorsMappings(registry: CorsRegistry)
+    }
+}
+
+interface CartService{
+    +{method}getCartOrCreate(userEmail: String)
+    +{method}addToCart(userEmail: String, productId: long, quantity: int)
+    +{method}setDelivery(userEmail: String, DeliveryIncluded: boolean)
+    +{method}clearCart(userEmail: String)
+}
+@enduml
