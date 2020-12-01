@@ -1,0 +1,19 @@
+@startuml Registration
+
+(*) --> "Authenticate user"
+--> "Get product info from SQL"
+if "Is available" then
+  -->[true] ===B1===
+else
+  -->[false] ===B3===
+endif
+
+===B1=== -down-->"Update cart items"
+--> "Add serializable data to SQL"
+
+--> ===B3===
+--> Return users cart
+--> "Display fetched data"
+--> (*)
+
+@enduml

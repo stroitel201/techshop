@@ -1,0 +1,16 @@
+@startuml Registration
+
+(*) --> "Get search string"
+--> "Get products info from SQL"
+if "Is available and name contains search string" then
+  -->[true] ===B1===
+
+endif
+
+===B1==-->Add to list
+
+--> Return list of products
+--> "Display fetched data"
+--> (*)
+
+@enduml

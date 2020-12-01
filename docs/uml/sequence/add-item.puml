@@ -1,0 +1,46 @@
+@startuml Create Bot
+
+hide footbox
+
+
+actor Administrator
+Administrator -> "Create Item : UI" as UI: Create Item Button
+
+activate UI
+UI -> SpringMVC_endpoint: << POST admin/products>>
+
+activate SpringMVC_endpoint
+SpringMVC_endpoint -> ProductEntity: new()
+activate ProductEntity
+
+ProductEntity -> FileStorage: addPhoto
+activate FileStorage
+FileStorage -> ProductEntity: S3 link
+deactivate FileStorage
+deactivate ProductEntity
+SpringMVC_endpoint -> ProductService: create
+activate ProductService
+
+
+ProductService -> ProductDAO: save
+activate ProductDAO
+
+ProductDAO->Database: insert
+activate Database
+
+Database --> ProductDAO: Serializable info
+deactivate Database
+
+ProductDAO --> ProductService: ProductEntity
+deactivate ProductDAO
+
+ProductService --> SpringMVC_endpoint: ProductEntity
+deactivate ProductService
+
+SpringMVC_endpoint --> UI: AdminProductDto
+deactivate SpringMVC_endpoint
+
+UI --> Administrator: Display item
+deactivate UI
+
+@enduml

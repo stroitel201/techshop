@@ -1,0 +1,68 @@
+@startuml Create Bot
+
+hide footbox
+
+actor User
+User -> "Authenticated activity : UI" as UI: Authenticated activity
+activate UI
+
+UI -> JWTTokenFilter: <<Request + token>>
+activate JWTTokenFilter
+
+JWTTokenFilter -> JWTTokenProvider: reolveToken
+activate JWTTokenProvider
+
+JWTTokenProvider -->JWTTokenFilter:token
+
+JWTTokenFilter->JWTTokenProvider:validate
+
+alt isTokenExpired == false
+
+JWTTokenFilter->TokenService: findToken
+activate TokenService
+deactivate TokenService
+
+JWTTokenFilter ->TokenEntity: isValid
+activate TokenEntity
+
+alt isTokenValid == true
+JWTTokenFilter->JWTTokenProvider:getAuthentication
+JWTTokenProvider->JWTUserDetailsService:loadByUsername
+activate JWTUserDetailsService
+
+JWTUserDetailsService-->JWTTokenProvider:JWTUserDetailsService
+deactivate JWTUserDetailsService
+
+JWTTokenProvider-->JWTTokenFilter:Authentication
+JWTTokenFilter->SecurityContext:setAuthentication
+JWTTokenFilter->SpringMVC_Endpoint: Request
+
+activate SpringMVC_Endpoint
+
+SpringMVC_Endpoint-->UI:response
+
+UI-->User: activity response
+
+else isTokenValid == false
+
+TokenEntity-->JWTTokenFilter:false
+deactivate TokenEntity
+
+JWTTokenFilter-->UI:HTTP Forbidden
+UI-->User:Redirect login page
+end
+
+
+else isTokenExpired == true
+JWTTokenProvider-->JWTTokenFilter: JWTException
+deactivate JWTTokenProvider
+
+JWTTokenFilter-->UI:HTTP Forbidden
+deactivate JWTTokenFilter
+
+UI-->User:Redirect login page
+deactivate UI
+
+end
+
+@enduml

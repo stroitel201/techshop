@@ -1,0 +1,21 @@
+@startuml Registration
+
+(*) --> "Get credentials"
+
+if "User Exists" then
+  -->[true] ===B1===
+else
+  -->[false] (*)
+endif
+
+===B1=== -->if "Correct credentials" then
+    -->[true] ===B2===
+    else
+    -->[false] (*)
+    endif
+
+===B2=== -->Return JWT Token
+-->Set token into cookie file
+-->(*)
+
+@enduml

@@ -31,7 +31,9 @@ function setOrderBtn() {
             address: city.value,
             cityAndRegion: country.value,
           })
-        ).then(window.location.replace("payment.html"));
+        ).then((data) => {
+          if (data) window.location.replace("payment.html");
+        });
     });
   });
 }

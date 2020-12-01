@@ -1,0 +1,54 @@
+@startuml Create Bot
+
+hide footbox
+
+
+actor Anonymous
+Anonymous -> "Login : UI" as UI: Login Button
+
+activate UI
+UI -> SpringMVC_endpoint: << POST auth/login>>
+
+activate SpringMVC_endpoint
+SpringMVC_endpoint -> AuthenticationManager: authenticate
+activate AuthenticationManager
+
+alt BadCredentials == false
+
+SpringMVC_endpoint -> JWTTokenProvider: createToken
+activate JWTTokenProvider
+
+JWTTokenProvider ->SpringMVC_endpoint: token
+deactivate JWTTokenProvider
+
+SpringMVC_endpoint -> TokenService: save
+activate TokenService
+
+TokenService-> TokenDAO: save
+activate TokenDAO
+
+TokenDAO-> Database: insert
+activate Database
+
+deactivate Database
+deactivate TokenDAO
+deactivate TokenService
+
+SpringMVC_endpoint --> UI: Username-token
+
+UI --> Anonymous: Redirect to main page
+
+else BadCredentials == true
+
+AuthenticationManager --> SpringMVC_endpoint: BadCredentialsException
+deactivate AuthenticationManager
+
+SpringMVC_endpoint-->UI: HTTP 401
+
+UI-->Anonymous: Reload login page
+
+deactivate SpringMVC_endpoint
+deactivate UI
+
+end
+@enduml
