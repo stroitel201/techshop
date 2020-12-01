@@ -40,6 +40,7 @@ JWTTokenFilter->SpringMVC_Endpoint: Request
 activate SpringMVC_Endpoint
 
 SpringMVC_Endpoint-->UI:response
+deactivate SpringMVC_Endpoint
 
 UI-->User: activity response
 
