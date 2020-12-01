@@ -7,15 +7,8 @@ import java.util.List;
 
 public interface UserAccountService {
 
-    /**
-     * @return user account associated with the specified email
-     */
     UserAccount findByEmail(String email);
 
-    /**
-     * Creates new account.
-     * @return newly created account
-     */
     UserAccount create(UserAccount userAccount) throws Exception;
 
     UserAccount findByUsername(String name);

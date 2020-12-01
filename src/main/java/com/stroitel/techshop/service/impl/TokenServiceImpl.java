@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TokenServiceImpl implements TokenService {
 
     @Autowired
-    TokenDAO tokenDAO;
+    private TokenDAO tokenDAO;
 
     @Transactional(readOnly = true)
     @Override
