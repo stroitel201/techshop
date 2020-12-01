@@ -473,5 +473,42 @@ class JwtAuthenticationException{
     +{method}JwtAuthenticationException()
 }
 
+class AuthenticationRestController{
+    -authenticationManager: AuthenticationManager
+    -JwtTokenProvider: jwtTokenProvider
+    -userAccountService: UserAccountService
+    -tokenService: TokenService
+    +{method}login(requestDto: AuthenticationRequestDto)
+    +{method}register(registerUserDto: RegisterUserDto)
+}
+
+class MainRestController{
+    -categoryService: CategoryService
+    -productService: ProductService
+    +{method}getCategories()
+    +{method}getCategory(id: Long)
+    +{method}getProducts(name: String, categoryTitle: String, pageNumber: int, pageSize: int)
+    +{method}getProduct(id: Long)
+}
+
+class UserRestController{
+    -userAccountService: UserAccountService
+    -jwtTokenProvider: JwtTokenProvider
+    -tokenService: TokenService
+    -cartService: CartService
+    -contactsService: ContactsService
+    -orderService: OrderService
+    +{method}getUser(servletRequest: HttpServletRequest)
+    +{method}getUserContacts(servletRequest: HttpServletRequest)
+    +{method}updateUserContacts(contactsDto: ContactsDto, servletRequest: HttpServletRequest)
+    +{method}getUserCart(servletRequest: HttpServletRequest)
+    +{method}addItemToUserCart(exAddItemDto: ExAddItemDto, servletRequest: HttpServletRequest)
+    +{method}setDeliveryToUserCart(booleanDto: BooleanDto, servletRequest: HttpServletRequest)
+    +{method}clearUserCart(servletRequest: HttpServletRequest)
+    +{method}logout(servletRequest: HttpServletRequest)
+    +{method}createOrder(servletRequest: HttpServletRequest)
+    -{method}getUserAccountByJWTToken(servletRequest: HttpServletRequest)
+}
+
 
 @enduml
