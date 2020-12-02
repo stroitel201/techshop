@@ -28,3 +28,13 @@ The **Use Cases Diagram** is the following diagram:
 ### 4. Class Diagram
 <img src="class_diagram.png">
 <img src="class_diagram_2.png">
+
+
+### 5. State Machine Diagrams
+#### 5.1. Edit Item
+
+![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/stroitel201/techshop/master/docs/uml/state_edit_file.puml)
+
+### 6. Component & Deployment Diagrams
+
+![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/stroitel201/techshop/master/docs/uml/deployment.puml)
