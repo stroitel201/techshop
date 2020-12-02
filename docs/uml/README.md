@@ -27,6 +27,4 @@ The **Use Cases Diagram** is the following diagram:
 
 ### 4. Class Diagram (Part 1)
 <img src="class_diagram.png">
-
-### Class Diagram (Part 2)
 <img src="class_diagram_2.png">
