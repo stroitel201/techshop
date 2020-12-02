@@ -1,7 +1,7 @@
 @startuml ClassDiagram
 
-scale 3000 width
-scale 1300 height
+scale 5000 width
+scale 3000 height
 
 class AWSLoader {
     -clientRegion: Region
@@ -475,7 +475,7 @@ class JwtAuthenticationException{
 
 class AuthenticationRestController{
     -authenticationManager: AuthenticationManager
-    -JwtTokenProvider: jwtTokenProvider
+    -jwtTokenProvider: JwtTokenProvider
     -userAccountService: UserAccountService
     -tokenService: TokenService
     +{method}login(requestDto: AuthenticationRequestDto)
@@ -509,6 +509,82 @@ class UserRestController{
     +{method}createOrder(servletRequest: HttpServletRequest)
     -{method}getUserAccountByJWTToken(servletRequest: HttpServletRequest)
 }
+
+class AdminRestController{
+    -awsLoader: AWSLoader
+    -userAccountService: UserAccountService
+    -cartService: CartService
+    -contactsService: ContactsService
+    -categoryService: CategoryService
+    -productService: ProductService
+    -orderService: OrderService
+    +{method}getUsers()
+    +{method}getUserById(id: Long)
+    +{method}activateUser(id: Long)
+    +{method}deactivateUser(id: Long)
+    +{method}getUserCart(id: Long)
+    +{method}getUserContacts(id: Long)
+    +{method}getCategories()
+    +{method}addCategory(categoryDto: CategoryDto)
+    +{method}getCategory(id: Long)
+    +{method}updateCategory(id: Long, categoryDto: CategoryDto)
+    +{method}getProducts()
+    +{method}addProduct(exProductDto: ExProductDto, file: MultipartFile)
+    +{method}getProduct(id: Long)
+    +{method}availableProduct(id: Long)
+    +{method}updateProduct(exProductDto: ExProductDto, file: MultipartFile)
+    +{method}deleteProduct(id: Long)
+    +{method}getOrders(id: Long)
+    +{method}getOrder(id: Long)
+    +{method}setExecutedOrder(id: Long, booleanDto: BooleanDto)
+}
+
+CartService <|-- CartServiceImpl
+CategoryService <|-- CategoryServiceImpl
+ContactsService <|-- ContactsServiceImpl
+OrderService <|-- OrderServiceImpl
+ProductService <|-- ProductServiceImpl
+TokenService <|-- TokenServiceImpl
+UserAccountService <|-- userAccountServiceImpl
+
+CartDAO *-- CartServiceImpl
+CategoryDAO *-- CategoryServiceImpl
+ContactsDAO *-- ContactsServiceImpl
+OrderDAO *-- OrderServiceImpl
+ProductDAO *-- ProductServiceImpl
+TokenDAO *-- TokenServiceImpl
+UserAccountDAO *-- UserAccountServiceImpl
+
+UserAccountService *-- JwtUserDetailsService
+JwtUserDetailsService *-- JwtTokenProvider
+JwtTokenProvider *-- JwtTokenFilter
+TokenService *-- JwtTokenFilter
+JwtTokenProvider *-- JwtConfigurer
+TokenService *-- JwtConfigurer
+JwtTokenProvider *-- SecurityConfig
+TokenService *-- SecurityConfig
+
+AWSLoader *-- AdminRestController
+UserAccountService *-- AdminRestController
+CartService *-- AdminRestController
+ContactsService *-- AdminRestController
+CategoryService *-- AdminRestController
+ProductService *-- AdminRestController
+OrderService *-- AdminRestController
+
+UserAccountService *-- UserRestController
+JwtTokenProvider *-- UserRestController
+TokenService *-- UserRestController
+CartService *-- UserRestController
+ContactsService *-- UserRestController
+OrderService *-- UserRestController
+
+CategoryService *-- MainRestController
+ProductService *-- MainRestController
+
+JwtTokenProvider *-- AuthenticationRestController
+UserAccountService *-- AuthenticationRestController
+TokenService *-- AuthenticationRestController
 
 
 @enduml
