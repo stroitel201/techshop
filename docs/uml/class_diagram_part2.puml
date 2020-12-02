@@ -257,19 +257,4 @@ Package "DTO"{
     }
 }
 
-Package "Configs"{
-    class SecurityConfig{
-        -jwtTokenProvider: JwtTokenProvider
-        -tokenService: TokenService
-        -ADMIN_ENDPOINT: String
-        -USER_ENDPOINT: String
-        -AUTH_ENDPOINT: String
-        -MAIN_ENDPOINT: String
-        +{method}SecurityConfig(jwtTokenProvider: JwtTokenProvider, tokenService: TokenService)
-        +{method}configure(http: HttpSecurity)
-    }
-    class MvcConfig{
-        +{method}addCorsMappings(registry: CorsRegistry)
-    }
-}
 @enduml

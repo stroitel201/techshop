@@ -35,6 +35,8 @@ deactivate JWTUserDetailsService
 
 JWTTokenProvider-->JWTTokenFilter:Authentication
 JWTTokenFilter->SecurityContext:setAuthentication
+activate SecurityContext
+deactivate SecurityContext
 JWTTokenFilter->SpringMVC_Endpoint: Request
 
 activate SpringMVC_Endpoint
