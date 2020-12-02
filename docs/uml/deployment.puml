@@ -1,0 +1,20 @@
+@startuml Component&Deployment
+
+left to right direction
+
+node Server{
+  component "Spring Boot 2"{
+    [REST API] .> HTTP : use
+  }
+  database "MySQL"{
+    [Serializable Data] <.up- [REST API]: use
+  }
+  [Amazon S3 files] <. [REST API]: use
+}
+
+node "Client"{
+
+  [JavaScript FetchAPI] .down.> HTTP: use
+
+}
+@enduml
