@@ -1,8 +1,8 @@
 @startuml ClassDiagram
 
-scale 5000 width
-scale 3000 height
-
+scale 3000 width
+scale 2000 height
+left to right direction
 class AWSLoader {
     -clientRegion: Region
     -bucketName: String
