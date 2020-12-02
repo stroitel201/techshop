@@ -25,6 +25,6 @@ The **Use Cases Diagram** is the following diagram:
 
 ![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/stroitel201/techshop/master/docs/uml/sequence/requestFilter.puml)
 
-### 4. Class Diagram (Part 1)
+### 4. Class Diagram
 <img src="class_diagram.png">
 <img src="class_diagram_2.png">
